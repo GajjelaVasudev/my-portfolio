@@ -1,5 +1,5 @@
 """
-Grounded answer generation using an LLM.
+Grounded answer generation using Google Gemini via the official Google GenAI Python SDK.
 Enforces strict factual fidelity, citation attribution, and honest fallback
 when retrieved evidence is insufficient.
 """
@@ -51,7 +51,7 @@ def generate_grounded_answer(
     history: Optional[List[Dict[str, str]]] = None
 ) -> Dict:
     """
-    Synthesizes a grounded answer from retrieved chunks using the configured LLM.
+    Synthesizes a grounded answer from retrieved chunks using the configured Google Gemini model.
     Returns a dictionary with 'answer', 'sources', and 'is_fallback'.
     """
     sources = _deduplicate_sources(retrieved_chunks)
@@ -70,16 +70,16 @@ def generate_grounded_answer(
         for i, c in enumerate(retrieved_chunks)
     )
 
-    # 3. Check for active OpenAI client
-    api_key = settings.openai_api_key
-    if not api_key or api_key == "your_openai_api_key_here":
+    # 3. Check for active Google Gemini API Key
+    api_key = settings.gemini_api_key
+    if not api_key or api_key in ("your_gemini_api_key_here", "your_openai_api_key_here"):
         # Fallback response for unconfigured local environment
-        logger.info("OPENAI_API_KEY is not configured; generating structured local excerpt response.")
+        logger.info("GEMINI_API_KEY is not configured; generating structured local excerpt response.")
         top_chunk = retrieved_chunks[0]
         excerpt_answer = (
             f"Based on Vasudev's **{top_chunk.file_name}** ({top_chunk.section_title}):\n\n"
             f"{top_chunk.content.splitlines()[-1] if len(top_chunk.content.splitlines()) > 1 else top_chunk.content}\n\n"
-            f"*(Note: Configure `OPENAI_API_KEY` in `backend/.env` for full generative conversational synthesis).* "
+            f"*(Note: Configure `GEMINI_API_KEY` in `backend/.env` for full conversational synthesis with {settings.gemini_generation_model}).* "
             f"Feel free to reach out directly to Vasudev at `gajjelavasudev@gmail.com`."
         )
         return {
@@ -88,40 +88,43 @@ def generate_grounded_answer(
             "is_fallback": False
         }
 
-    # 4. Generate with OpenAI API
+    # 4. Generate with Google GenAI SDK
     try:
-        from openai import OpenAI
-        kwargs = {"api_key": api_key}
-        if settings.openai_base_url:
-            kwargs["base_url"] = settings.openai_base_url
-        client = OpenAI(**kwargs)
+        from google import genai
+        from google.genai import types
 
-        messages = [
-            {"role": "system", "content": SYSTEM_PROMPT}
+        client = genai.Client(api_key=api_key)
+
+        prompt_parts: List[str] = [
+            f"RETRIEVED PORTFOLIO EVIDENCE:\n{context_text}\n\n"
         ]
 
         # Append recent session history (last 4 turns)
         if history:
+            prompt_parts.append("RECENT CONVERSATION HISTORY:\n")
             for turn in history[-4:]:
-                role = turn.get("role")
+                role = turn.get("role", "user")
                 content = turn.get("content", "")
                 if role in ("user", "assistant") and content:
-                    messages.append({"role": role, "content": content})
+                    prompt_parts.append(f"{role.upper()}: {content}\n")
+            prompt_parts.append("\n")
 
-        user_content = (
-            f"RETRIEVED PORTFOLIO EVIDENCE:\n{context_text}\n\n"
-            f"VISITOR QUESTION:\n{query.strip()}"
-        )
-        messages.append({"role": "user", "content": user_content})
+        prompt_parts.append(f"VISITOR QUESTION:\n{query.strip()}")
+        user_prompt = "".join(prompt_parts)
 
-        response = client.chat.completions.create(
-            model=settings.llm_model,
-            temperature=settings.llm_temperature,
-            messages=messages,
-            max_tokens=600
+        config = types.GenerateContentConfig(
+            system_instruction=SYSTEM_PROMPT,
+            temperature=settings.gemini_temperature,
+            max_output_tokens=600
         )
 
-        answer_text = response.choices[0].message.content.strip()
+        response = client.models.generate_content(
+            model=settings.gemini_generation_model,
+            contents=user_prompt,
+            config=config
+        )
+
+        answer_text = response.text.strip() if response.text else FALLBACK_MESSAGE
         is_fallback = "don't have enough verified information" in answer_text.lower()
 
         return {
@@ -131,10 +134,10 @@ def generate_grounded_answer(
         }
 
     except Exception as exc:
-        logger.error(f"LLM generation error: {exc}")
+        logger.error(f"Google Gemini generation error: {exc}")
         return {
             "answer": (
-                "An error occurred while connecting to the intelligence service. "
+                "An error occurred while connecting to the Gemini intelligence service. "
                 "Please try again in a moment, or reach out to Vasudev directly via gajjelavasudev@gmail.com."
             ),
             "sources": sources,

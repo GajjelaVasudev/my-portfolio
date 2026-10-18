@@ -31,13 +31,12 @@ class Settings(BaseSettings):
         description="PostgreSQL connection string with pgvector extension"
     )
 
-    # LLM & Embeddings
-    openai_api_key: Optional[str] = Field(default=None, description="OpenAI API key")
-    openai_base_url: Optional[str] = Field(default=None, description="Custom base URL for OpenAI-compatible providers")
-    embedding_model: str = "text-embedding-3-small"
-    embedding_dimension: int = 1536
-    llm_model: str = "gpt-4o-mini"
-    llm_temperature: float = 0.2
+    gemini_api_key: Optional[str] = Field(default=None, description="Google Gemini API key")
+    gemini_generation_model: str = Field(default="gemini-1.5-flash", description="Gemini generation model (e.g. gemini-1.5-flash or gemini-2.0-flash)")
+    gemini_embedding_model: str = Field(default="gemini-embedding-001", description="Gemini embedding model (gemini-embedding-001)")
+    gemini_temperature: float = Field(default=0.2, description="Temperature for grounded generation")
+    embedding_dimension: int = Field(default=768, description="Vector dimension for gemini-embedding-001 (768)")
+    embedding_mock_mode: bool = Field(default=False, description="Enable explicit mock embeddings for development or unit tests only")
 
     # Retrieval
     knowledge_base_dir: Path = DEFAULT_KNOWLEDGE_BASE_DIR
