@@ -14,7 +14,7 @@ export const Navbar: React.FC = () => {
     window.addEventListener('scroll', handleScroll, { passive: true });
 
     // Active section tracking
-    const sectionIds = ['hero', 'about', 'work', 'notes', 'contact'];
+    const sectionIds = ['hero', 'about', 'work', 'experience', 'notes', 'contact'];
     const sections = sectionIds
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => el !== null);
