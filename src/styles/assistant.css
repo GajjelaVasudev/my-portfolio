@@ -1,110 +1,138 @@
 /* ==========================================================================
-   FLOATING RAG PERSONAL ASSISTANT — Google Stitch Design System
+   FLOATING RAG PERSONAL ASSISTANT — LEO
+   Theme: Warm, Editorial Light Portfolio Aesthetic
+     - Surface: #F8F5F0 (Warm off-white)
+     - Message & Input Cards: #FFFFFF / #FAF8F5
+     - Primary Text: #191919 (Charcoal)
+     - Secondary Text: #777067 (Muted warm grey)
+     - Borders: #E5DDD3 (Soft beige)
+     - Accent: #D9532F (Restrained earthy terracotta)
    ========================================================================== */
 
-/* Floating Launcher Button */
+:root {
+  --leo-surface: #F8F5F0;
+  --leo-surface-subtle: #FAF8F5;
+  --leo-card: #FFFFFF;
+  --leo-border: #E5DDD3;
+  --leo-border-subtle: #EFE8DF;
+  --leo-border-hover: #D5CFC5;
+  --leo-text-primary: #191919;
+  --leo-text-secondary: #777067;
+  --leo-text-muted: #8E8A83;
+  --leo-text-faint: #B5B2AC;
+  --leo-accent: var(--accent-rust, #D9532F);
+  --leo-accent-hover: var(--accent-rust-hover, #BF4422);
+  --leo-accent-subtle: var(--accent-rust-subtle, rgba(217, 83, 47, 0.08));
+  --leo-accent-border: var(--accent-rust-border, rgba(217, 83, 47, 0.22));
+  --leo-user-bubble: #EFE9DF;
+  --leo-user-border: #E2D9CE;
+  --leo-error-bg: #FAF2EE;
+  --leo-error-border: #EED7CF;
+  --leo-error-text: #9E351B;
+  --leo-shadow: 0 12px 32px -4px rgba(24, 24, 27, 0.08), 0 3px 10px rgba(24, 24, 27, 0.03);
+  --leo-shadow-launcher: 0 2px 8px rgba(24, 24, 27, 0.06), 0 1px 2px rgba(24, 24, 27, 0.03);
+  --leo-shadow-launcher-hover: 0 4px 14px rgba(24, 24, 27, 0.09), 0 1px 3px rgba(24, 24, 27, 0.04);
+  --leo-radius-panel: 10px;
+  --leo-radius-bubble: 6px;
+  --leo-radius-control: 5px;
+  --leo-radius-pill: 9999px;
+}
+
+/* ==========================================================================
+   1. Floating Launcher Button
+   ========================================================================== */
+
 .floating-assistant-launcher {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
+  bottom: 28px;
+  right: 28px;
   z-index: 1000;
   display: flex;
   align-items: center;
-  gap: 0.65rem;
 }
 
-.assistant-btn-circle {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-strong);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-  display: flex;
+.assistant-launcher-btn {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: 0.55rem;
+  background-color: var(--leo-surface);
+  border: 1px solid var(--leo-border);
+  border-radius: var(--leo-radius-pill);
+  padding: 0.55rem 1rem 0.55rem 0.85rem;
+  color: var(--leo-text-primary);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  box-shadow: var(--leo-shadow-launcher);
   cursor: pointer;
-  color: var(--text-primary);
-  transition: all var(--transition-fast);
-  position: relative;
+  outline: none;
+  transition: background-color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease, color 0.18s ease;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-.assistant-btn-circle:hover {
-  transform: translateY(-2px);
-  border-color: var(--accent-rust);
-  box-shadow: 0 10px 28px rgba(217, 83, 47, 0.18);
-  color: var(--accent-rust);
+.assistant-launcher-btn:hover {
+  background-color: #F1ECE4;
+  border-color: var(--leo-border-hover);
+  box-shadow: var(--leo-shadow-launcher-hover);
+  transform: translateY(-1px);
+}
+
+.assistant-launcher-btn:focus-visible {
+  outline: 2px solid var(--leo-accent);
+  outline-offset: 3px;
+}
+
+.assistant-launcher-btn.is-open {
+  background-color: #F3EEE7;
+  border-color: var(--leo-accent-border);
 }
 
 .assistant-launcher-icon {
-  width: 22px;
-  height: 22px;
-  stroke-width: 1.8;
-}
-
-.assistant-status-dot-pulse {
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  background-color: #10B981;
-  border: 2px solid var(--bg-surface);
-  box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.4);
+  width: 17px;
+  height: 17px;
+  color: var(--leo-accent);
+  flex-shrink: 0;
 }
 
 .assistant-launcher-label {
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-hairline);
-  color: var(--text-primary);
-  font-family: var(--font-sans);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  padding: 0.4rem 0.75rem;
-  border-radius: 9999px;
-  box-shadow: var(--shadow-subtle);
-  pointer-events: none;
-  opacity: 0;
-  transform: translateX(6px);
-  transition: all var(--transition-fast);
   white-space: nowrap;
+  color: var(--leo-text-primary);
+  line-height: 1;
 }
 
-.floating-assistant-launcher:hover .assistant-launcher-label {
-  opacity: 1;
-  transform: translateX(0);
-}
+/* ==========================================================================
+   2. Floating Chat Panel Container
+   ========================================================================== */
 
-/* Floating Chat Panel */
 .floating-assistant-panel {
   position: fixed;
-  bottom: 88px;
-  right: 24px;
-  z-index: 1000;
+  bottom: 76px;
+  right: 28px;
+  z-index: 1001;
   width: 380px;
   max-width: calc(100vw - 32px);
   height: 530px;
-  max-height: calc(100vh - 120px);
-  background-color: var(--bg-canvas);
-  border: 1px solid var(--border-strong);
-  border-radius: 8px;
-  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.14);
+  max-height: calc(100dvh - 96px);
+  background-color: var(--leo-surface);
+  border: 1px solid var(--leo-border);
+  border-radius: var(--leo-radius-panel);
+  box-shadow: var(--leo-shadow);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  animation: panelSlideUp 0.25s var(--ease-smooth);
+  animation: leoPanelFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes panelSlideUp {
+@keyframes leoPanelFadeIn {
   from {
     opacity: 0;
-    transform: translateY(12px) scale(0.98);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 }
 
@@ -112,78 +140,141 @@
   .floating-assistant-panel {
     animation: none;
   }
+  .assistant-launcher-btn {
+    transition: none;
+    transform: none !important;
+  }
 }
 
-/* Panel Header */
+/* ==========================================================================
+   3. Panel Header
+   ========================================================================== */
+
 .assistant-panel-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.9rem 1.15rem;
-  background-color: var(--bg-surface);
-  border-bottom: 1px solid var(--border-hairline);
+  padding: 0.85rem 1rem;
+  background-color: var(--leo-surface);
+  border-bottom: 1px solid var(--leo-border);
+  flex-shrink: 0;
 }
 
 .header-info-wrap {
   display: flex;
   align-items: center;
   gap: 0.65rem;
+  min-width: 0;
 }
 
-.header-status-indicator {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: #10B981;
+.header-icon-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background-color: var(--leo-card);
+  border: 1px solid var(--leo-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--leo-accent);
+}
+
+.header-chat-icon {
+  width: 16px;
+  height: 16px;
 }
 
 .header-title-block {
   display: flex;
   flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
 }
 
 .header-app-name {
   font-family: var(--font-sans);
   font-size: 0.8125rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--text-primary);
-  line-height: 1.2;
+  font-weight: 600;
+  color: var(--leo-text-primary);
+  line-height: 1.25;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.01em;
 }
 
 .header-app-desc {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.6875rem;
-  color: var(--text-muted);
+  color: var(--leo-text-secondary);
+  line-height: 1.3;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .assistant-panel-close-btn {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: 1.1rem;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--leo-text-secondary);
+  width: 28px;
+  height: 28px;
+  border-radius: var(--leo-radius-control);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  padding: 0.25rem 0.4rem;
-  border-radius: 4px;
-  line-height: 1;
-  transition: all var(--transition-fast);
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  outline: none;
+  flex-shrink: 0;
 }
 
 .assistant-panel-close-btn:hover {
-  color: var(--accent-rust);
-  background-color: var(--accent-rust-subtle);
+  color: var(--leo-text-primary);
+  background-color: #EDE7DC;
+  border-color: var(--leo-border);
 }
 
-/* Messages Area */
+.assistant-panel-close-btn:focus-visible {
+  outline: 2px solid var(--leo-accent);
+  outline-offset: 1px;
+}
+
+/* ==========================================================================
+   4. Messages Area
+   ========================================================================== */
+
 .assistant-messages-container {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
-  padding: 1rem;
+  padding: 1rem 0.95rem;
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
   scroll-behavior: smooth;
+  background-color: var(--leo-surface);
+}
+
+/* Custom Scrollbar for Messages */
+.assistant-messages-container::-webkit-scrollbar {
+  width: 5px;
+}
+
+.assistant-messages-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.assistant-messages-container::-webkit-scrollbar-thumb {
+  background-color: var(--leo-border);
+  border-radius: 4px;
+}
+
+.assistant-messages-container::-webkit-scrollbar-thumb:hover {
+  background-color: var(--leo-border-hover);
 }
 
 /* Message Rows */
@@ -195,81 +286,149 @@
 
 .chat-message-row.is-user {
   align-self: flex-end;
+  max-width: 85%;
 }
 
 .chat-message-row.is-assistant {
   align-self: flex-start;
+  max-width: 88%;
 }
 
 .chat-bubble {
   padding: 0.75rem 0.95rem;
   font-family: var(--font-sans);
-  font-size: 0.85rem;
+  font-size: 0.8125rem;
   line-height: 1.55;
-  border-radius: 6px;
+  border-radius: var(--leo-radius-bubble);
   word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 .chat-message-row.is-user .chat-bubble {
-  background-color: var(--text-primary);
-  color: #FFFFFF;
-  border-bottom-right-radius: 1px;
+  background-color: var(--leo-user-bubble);
+  border: 1px solid var(--leo-user-border);
+  color: var(--leo-text-primary);
+  border-bottom-right-radius: 2px;
 }
 
 .chat-message-row.is-assistant .chat-bubble {
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-hairline);
-  color: var(--text-primary);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
-  border-bottom-left-radius: 1px;
+  background-color: var(--leo-card);
+  border: 1px solid var(--leo-border);
+  color: var(--leo-text-primary);
+  border-bottom-left-radius: 2px;
+  box-shadow: 0 1px 3px rgba(28, 25, 23, 0.03);
 }
 
-/* Source Attribution Strip */
+.chat-bubble a {
+  color: var(--leo-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease;
+}
+
+.chat-bubble a:hover {
+  color: var(--leo-accent-hover);
+}
+
+/* ==========================================================================
+   5. Compact, Readable Source Citation Cards
+   ========================================================================== */
+
 .message-sources-strip {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
-  margin-top: 0.5rem;
-  padding-top: 0.45rem;
-  border-top: 1px dashed var(--border-subtle);
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.65rem;
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--leo-border-subtle);
+  white-space: normal;
 }
 
 .source-strip-label {
   font-family: var(--font-mono);
   font-size: 0.625rem;
   font-weight: 600;
-  color: var(--text-muted);
+  color: var(--leo-text-secondary);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  width: 100%;
+  letter-spacing: 0.05em;
 }
 
-.source-citation-pill {
+.source-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.source-citation-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  padding: 0.45rem 0.6rem;
+  background-color: var(--leo-surface-subtle);
+  border: 1px solid var(--leo-border);
+  border-radius: var(--leo-radius-control);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.source-citation-card:hover {
+  border-color: var(--leo-border-hover);
+  background-color: #FFFFFF;
+}
+
+.source-accent-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--leo-accent);
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+
+.source-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.source-card-file {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
-  color: var(--accent-rust);
-  background-color: var(--accent-rust-subtle);
-  border: 1px solid var(--accent-rust-border);
-  padding: 0.15rem 0.45rem;
-  border-radius: 2px;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
+  font-weight: 500;
+  color: var(--leo-text-primary);
+  overflow-wrap: anywhere;
+  word-break: break-all;
 }
 
-/* Suggested Questions Block */
+.source-card-section {
+  font-family: var(--font-sans);
+  font-size: 0.675rem;
+  color: var(--leo-text-secondary);
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* ==========================================================================
+   6. Suggested Questions Block
+   ========================================================================== */
+
 .suggested-questions-box {
   display: flex;
   flex-direction: column;
   gap: 0.45rem;
-  margin-top: 0.4rem;
+  margin-top: 0.3rem;
+  padding: 0 0.1rem;
 }
 
 .suggested-label {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.625rem;
   font-weight: 600;
-  color: var(--text-muted);
+  color: var(--leo-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -281,42 +440,72 @@
 }
 
 .suggested-chip-btn {
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-hairline);
-  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  background-color: var(--leo-card);
+  border: 1px solid var(--leo-border);
+  color: var(--leo-text-primary);
   font-family: var(--font-sans);
-  font-size: 0.78rem;
-  padding: 0.45rem 0.75rem;
-  border-radius: 4px;
+  font-size: 0.775rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--leo-radius-control);
   text-align: left;
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+  outline: none;
+}
+
+.suggested-chip-btn .chip-text {
+  flex: 1;
+}
+
+.suggested-chip-btn .chip-arrow {
+  color: var(--leo-text-secondary);
+  flex-shrink: 0;
+  transition: transform 0.15s ease, color 0.15s ease;
 }
 
 .suggested-chip-btn:hover {
-  border-color: var(--accent-rust-border);
-  background-color: var(--accent-rust-subtle);
-  color: var(--accent-rust);
+  background-color: var(--leo-surface-subtle);
+  border-color: var(--leo-border-hover);
+  color: var(--leo-accent);
+  transform: translateX(2px);
 }
 
-/* Typing / Loading Indicator */
+.suggested-chip-btn:hover .chip-arrow {
+  color: var(--leo-accent);
+  transform: translateX(2px);
+}
+
+.suggested-chip-btn:focus-visible {
+  outline: 2px solid var(--leo-accent);
+  outline-offset: 1px;
+}
+
+/* ==========================================================================
+   7. Typing / Loading Indicator
+   ========================================================================== */
+
 .assistant-typing-indicator {
   display: inline-flex;
   align-items: center;
   gap: 4px;
   padding: 0.6rem 0.85rem;
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-hairline);
-  border-radius: 6px;
+  background-color: var(--leo-card);
+  border: 1px solid var(--leo-border);
+  border-radius: var(--leo-radius-bubble);
   align-self: flex-start;
+  box-shadow: 0 1px 3px rgba(28, 25, 23, 0.03);
 }
 
 .typing-dot {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
-  background-color: var(--text-muted);
-  animation: typingBounce 1.2s infinite ease-in-out;
+  background-color: var(--leo-accent);
+  animation: leoTypingPulse 1.2s infinite ease-in-out;
 }
 
 .typing-dot:nth-child(2) {
@@ -327,141 +516,192 @@
   animation-delay: 0.4s;
 }
 
-@keyframes typingBounce {
+@keyframes leoTypingPulse {
   0%, 80%, 100% {
     transform: translateY(0);
-    opacity: 0.4;
+    opacity: 0.35;
   }
   40% {
-    transform: translateY(-4px);
+    transform: translateY(-2px);
     opacity: 1;
-    background-color: var(--accent-rust);
   }
 }
 
-/* Error State in Chat */
+/* ==========================================================================
+   8. Error State & Retry Button
+   ========================================================================== */
+
 .chat-error-card {
-  background-color: #FEF2F2;
-  border: 1px solid #FECACA;
-  color: #991B1B;
-  padding: 0.65rem 0.85rem;
-  border-radius: 6px;
-  font-size: 0.8rem;
+  background-color: var(--leo-error-bg) !important;
+  border: 1px solid var(--leo-error-border) !important;
+  color: var(--leo-error-text) !important;
+  padding: 0.7rem 0.9rem;
+  border-radius: var(--leo-radius-bubble);
+  font-size: 0.78rem;
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.5rem;
 }
 
 .error-retry-btn {
   align-self: flex-start;
-  background: none;
-  border: 1px solid #991B1B;
-  color: #991B1B;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: #FFFFFF;
+  border: 1px solid var(--leo-error-border);
+  color: var(--leo-error-text);
+  font-family: var(--font-sans);
   font-size: 0.72rem;
-  font-weight: 600;
-  padding: 0.2rem 0.5rem;
-  border-radius: 3px;
+  font-weight: 500;
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--leo-radius-control);
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  outline: none;
 }
 
 .error-retry-btn:hover {
-  background-color: #991B1B;
-  color: #FFFFFF;
+  background-color: #F8E8E2;
+  border-color: #E2A99B;
 }
 
-/* Footer / Input Area */
+.error-retry-btn:focus-visible {
+  outline: 2px solid var(--leo-accent);
+  outline-offset: 1px;
+}
+
+/* ==========================================================================
+   9. Footer / Input Area
+   ========================================================================== */
+
 .assistant-panel-footer {
-  background-color: var(--bg-surface);
-  border-top: 1px solid var(--border-hairline);
+  background-color: var(--leo-surface);
+  border-top: 1px solid var(--leo-border);
   display: flex;
   flex-direction: column;
+  padding: 0.75rem 0.85rem max(0.6rem, env(safe-area-inset-bottom)) 0.85rem;
+  flex-shrink: 0;
 }
 
 .assistant-input-form {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0.65rem 0.85rem;
+  width: 100%;
+}
+
+.assistant-input-field-wrap {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: var(--leo-card);
+  border: 1px solid var(--leo-border);
+  border-radius: var(--leo-radius-control);
+  padding: 0.25rem 0.3rem 0.25rem 0.7rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.assistant-input-field-wrap:focus-within {
+  border-color: var(--leo-accent);
+  box-shadow: 0 0 0 1px rgba(217, 83, 47, 0.2);
 }
 
 .assistant-query-input {
   flex: 1;
-  background-color: var(--bg-canvas);
-  border: 1px solid var(--border-hairline);
-  border-radius: 4px;
-  padding: 0.5rem 0.75rem;
+  background: transparent;
+  border: none;
+  outline: none;
   font-family: var(--font-sans);
   font-size: 0.8125rem;
-  color: var(--text-primary);
-  outline: none;
-  transition: border-color var(--transition-fast);
+  color: var(--leo-text-primary);
+  min-width: 0;
+  padding: 0.35rem 0.25rem;
 }
 
-.assistant-query-input:focus {
-  border-color: var(--accent-rust);
+.assistant-query-input::placeholder {
+  color: var(--leo-text-muted);
 }
 
 .assistant-query-input:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
 .assistant-send-btn {
-  background-color: var(--text-primary);
+  background-color: var(--leo-accent);
   color: #FFFFFF;
   border: none;
-  border-radius: 4px;
-  width: 34px;
-  height: 34px;
+  border-radius: var(--leo-radius-control);
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background-color var(--transition-fast);
+  transition: background-color 0.15s ease, opacity 0.15s ease;
   flex-shrink: 0;
+  outline: none;
 }
 
 .assistant-send-btn:hover:not(:disabled) {
-  background-color: var(--accent-rust);
+  background-color: var(--leo-accent-hover);
+}
+
+.assistant-send-btn:focus-visible {
+  outline: 2px solid var(--leo-accent);
+  outline-offset: 1px;
 }
 
 .assistant-send-btn:disabled {
-  opacity: 0.4;
+  background-color: var(--leo-border-subtle);
+  color: var(--leo-text-muted);
   cursor: not-allowed;
 }
 
 .assistant-footer-disclaimer {
   font-family: var(--font-mono);
   font-size: 0.625rem;
-  color: var(--text-muted);
+  color: var(--leo-text-secondary);
   text-align: center;
-  padding: 0.25rem 0.75rem 0.5rem;
-  letter-spacing: 0.02em;
+  padding-top: 0.45rem;
+  letter-spacing: 0.01em;
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 480px) {
+/* ==========================================================================
+   10. Mobile Responsiveness & Safe Area Viewports
+   ========================================================================== */
+
+@media (max-width: 640px) {
   .floating-assistant-launcher {
-    bottom: 16px;
-    right: 16px;
+    bottom: max(20px, env(safe-area-inset-bottom));
+    right: max(20px, env(safe-area-inset-right));
   }
 
-  .assistant-btn-circle {
-    width: 48px;
-    height: 48px;
+  /* When the chat panel is open on mobile, hide the launcher completely so there is no overlap */
+  .floating-assistant-launcher.is-panel-open {
+    display: none !important;
   }
 
-  .assistant-launcher-label {
-    display: none;
+  .assistant-launcher-btn {
+    padding: 0.5rem 0.85rem 0.5rem 0.75rem;
+    font-size: 0.775rem;
   }
 
   .floating-assistant-panel {
-    bottom: 74px;
-    right: 12px;
-    left: 12px;
+    bottom: max(16px, env(safe-area-inset-bottom));
+    right: 16px;
+    left: 16px;
     width: auto;
     max-width: none;
-    height: min(490px, calc(100vh - 90px));
+    height: min(520px, calc(100dvh - 32px));
+    max-height: calc(100dvh - 32px);
+    border-radius: 10px;
+  }
+}
+
+@media (max-width: 380px) {
+  .assistant-launcher-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
   }
 }

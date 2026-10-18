@@ -14,10 +14,9 @@ interface ChatMessage {
 }
 
 const SUGGESTED_QUESTIONS = [
-  "What is Vasudev's core tech stack?",
-  "Tell me about the Smart India Hackathon project",
-  "What microservices projects has he built?",
-  "What practical backend experience does he have?"
+  "Explore my projects",
+  "My technical skills",
+  "My hackathon experience"
 ];
 
 const DEPLOYED_BACKEND_URL = 'https://portfolio-rag-backend-vkq8.onrender.com';
@@ -46,7 +45,7 @@ export const FloatingAssistant: React.FC = () => {
       id: createMessageId('init'),
       role: 'assistant',
       content:
-        "Hello! I am Vasudev's portfolio assistant. I can answer questions about his distributed systems projects, core technical stack, hackathon solutions, and professional experience grounded in his verified knowledge files. What would you like to know?"
+        "Hey, welcome! Curious about my projects, technical skills, hackathons, or experience? Ask away, and I'll help you explore."
     }
   ]);
 
@@ -65,6 +64,17 @@ export const FloatingAssistant: React.FC = () => {
     if (isOpen) {
       setTimeout(() => inputRef.current?.focus(), 150);
     }
+  }, [isOpen]);
+
+  // Close on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        setIsOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen]);
 
   const handleSendMessage = async (textToSend?: string) => {
@@ -148,68 +158,87 @@ export const FloatingAssistant: React.FC = () => {
   return (
     <>
       {/* Floating Launcher Button */}
-      <div className="floating-assistant-launcher">
-        <span className="assistant-launcher-label">Ask Vasudev AI</span>
+      <div className={`floating-assistant-launcher ${isOpen ? 'is-panel-open' : ''}`}>
         <button
           type="button"
-          className="assistant-btn-circle"
+          className={`assistant-launcher-btn ${isOpen ? 'is-open' : ''}`}
           onClick={() => setIsOpen(!isOpen)}
-          aria-label={isOpen ? 'Close assistant' : 'Ask Vasudev AI assistant'}
+          aria-label={isOpen ? 'Close Leo assistant' : "Ask Leo — Vasudev's Personal Assistant"}
           aria-expanded={isOpen}
+          aria-controls="leo-assistant-dialog"
         >
-          <span className="assistant-status-dot-pulse" aria-hidden="true" />
-          {isOpen ? (
-            <svg
-              className="assistant-launcher-icon"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          ) : (
-            <svg
-              className="assistant-launcher-icon"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-              <path d="M9.5 9h.01" />
-              <path d="M14.5 9h.01" />
-            </svg>
-          )}
+          <svg
+            className="assistant-launcher-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            <path d="M8 10h.01" />
+            <path d="M12 10h.01" />
+            <path d="M16 10h.01" />
+          </svg>
+          <span className="assistant-launcher-label">Ask Leo</span>
         </button>
       </div>
 
       {/* Floating Chat Panel */}
       {isOpen && (
         <section
+          id="leo-assistant-dialog"
           className="floating-assistant-panel"
           role="dialog"
-          aria-label="Portfolio AI Assistant"
+          aria-label="Vasudev's Personal Assistant"
         >
           {/* Panel Header */}
           <header className="assistant-panel-header">
             <div className="header-info-wrap">
-              <span className="header-status-indicator" aria-hidden="true" />
+              <div className="header-icon-badge" aria-hidden="true">
+                <svg
+                  className="header-chat-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                  <path d="M8 10h.01" />
+                  <path d="M12 10h.01" />
+                  <path d="M16 10h.01" />
+                </svg>
+              </div>
               <div className="header-title-block">
-                <span className="header-app-name">Vasudev Assistant</span>
-                <span className="header-app-desc">RAG Verified // Knowledge Base</span>
+                <h2 className="header-app-name">Vasudev's Personal Assistant</h2>
+                <p className="header-app-desc">Your guide to my projects, skills and experience.</p>
               </div>
             </div>
             <button
               type="button"
               className="assistant-panel-close-btn"
               onClick={() => setIsOpen(false)}
-              aria-label="Close assistant panel"
+              aria-label="Close assistant"
+              title="Close assistant"
             >
-              ✕
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
             </button>
           </header>
 
@@ -221,18 +250,25 @@ export const FloatingAssistant: React.FC = () => {
                 className={`chat-message-row is-${msg.role}`}
               >
                 <div className={`chat-bubble ${msg.isError ? 'chat-error-card' : ''}`}>
-                  <span>{msg.content}</span>
+                  <span className="chat-bubble-text">{msg.content}</span>
 
-                  {/* Sources References */}
+                  {/* Sources References as Structured Source Cards */}
                   {msg.sources && msg.sources.length > 0 && (
                     <div className="message-sources-strip">
-                      <span className="source-strip-label">Verified Sources:</span>
-                      {msg.sources.map((src, idx) => (
-                        <span key={idx} className="source-citation-pill">
-                          <span aria-hidden="true">↳</span>
-                          <span>{src.file_name} // {src.section_title}</span>
-                        </span>
-                      ))}
+                      <span className="source-strip-label">Verified Sources</span>
+                      <div className="source-cards-list">
+                        {msg.sources.map((src, idx) => (
+                          <div key={idx} className="source-citation-card">
+                            <span className="source-accent-dot" aria-hidden="true" />
+                            <div className="source-card-text">
+                              <span className="source-card-file">{src.file_name}</span>
+                              {src.section_title && (
+                                <span className="source-card-section">{src.section_title}</span>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   )}
 
@@ -243,17 +279,30 @@ export const FloatingAssistant: React.FC = () => {
                       className="error-retry-btn"
                       onClick={() => handleSendMessage(lastFailedQuery)}
                     >
-                      ↻ Retry Query
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
+                      </svg>
+                      <span>Retry Question</span>
                     </button>
                   )}
                 </div>
               </div>
             ))}
 
-            {/* Suggested Question Chips (Only shown if less than 3 messages) */}
+            {/* Suggested Question Chips (Only shown if <= 2 messages) */}
             {messages.length <= 2 && !isLoading && (
               <div className="suggested-questions-box">
-                <span className="suggested-label">Suggested Questions:</span>
+                <span className="suggested-label">Suggested Questions</span>
                 <div className="suggested-chips-list">
                   {SUGGESTED_QUESTIONS.map((q) => (
                     <button
@@ -262,7 +311,22 @@ export const FloatingAssistant: React.FC = () => {
                       className="suggested-chip-btn"
                       onClick={() => handleSendMessage(q)}
                     >
-                      {q} →
+                      <span className="chip-text">{q}</span>
+                      <svg
+                        className="chip-arrow"
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                      </svg>
                     </button>
                   ))}
                 </div>
@@ -271,7 +335,7 @@ export const FloatingAssistant: React.FC = () => {
 
             {/* Typing Indicator */}
             {isLoading && (
-              <div className="assistant-typing-indicator" aria-label="Assistant is searching knowledge base">
+              <div className="assistant-typing-indicator" aria-label="Leo is searching knowledge base">
                 <span className="typing-dot" />
                 <span className="typing-dot" />
                 <span className="typing-dot" />
@@ -284,40 +348,43 @@ export const FloatingAssistant: React.FC = () => {
           {/* Panel Footer */}
           <footer className="assistant-panel-footer">
             <form className="assistant-input-form" onSubmit={handleSubmit}>
-              <input
-                ref={inputRef}
-                type="text"
-                className="assistant-query-input"
-                placeholder="Ask about projects, skills, SIH hackathon..."
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                disabled={isLoading}
-                maxLength={500}
-                aria-label="Your inquiry for the portfolio assistant"
-              />
-              <button
-                type="submit"
-                className="assistant-send-btn"
-                disabled={isLoading || !query.trim()}
-                aria-label="Send inquiry"
-              >
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+              <div className="assistant-input-field-wrap">
+                <input
+                  ref={inputRef}
+                  type="text"
+                  className="assistant-query-input"
+                  placeholder="Ask Leo about projects, skills, or experience..."
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  disabled={isLoading}
+                  maxLength={500}
+                  aria-label="Ask Leo a question"
+                />
+                <button
+                  type="submit"
+                  className="assistant-send-btn"
+                  disabled={isLoading || !query.trim()}
+                  aria-label="Send question"
                 >
-                  <line x1="22" y1="2" x2="11" y2="13" />
-                  <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                </svg>
-              </button>
+                  <svg
+                    width="13"
+                    height="13"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <line x1="22" y1="2" x2="11" y2="13" />
+                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                  </svg>
+                </button>
+              </div>
             </form>
             <div className="assistant-footer-disclaimer">
-              Grounded strictly in Vasudev's verified knowledge files.
+              Grounded in Vasudev's verified portfolio knowledge base.
             </div>
           </footer>
         </section>
