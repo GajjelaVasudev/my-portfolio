@@ -118,7 +118,7 @@ Because Google Gemini's `gemini-embedding-001` configured with `output_dimension
    - In Netlify dashboard: **Site configuration** → **Environment variables**.
    - Add:
      - **Key**: `VITE_API_URL`
-     - **Value**: `https://portfolio-rag-backend.onrender.com` *(Your Render backend URL)*
+     - **Value**: `https://portfolio-rag-backend-vkq8.onrender.com` *(Your Render backend URL)*
 5. Deploy the site.
 6. Copy your production Netlify URL (e.g. `https://your-portfolio.netlify.app`).
 

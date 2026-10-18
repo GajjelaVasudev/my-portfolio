@@ -20,10 +20,14 @@ const SUGGESTED_QUESTIONS = [
   "What practical backend experience does he have?"
 ];
 
-const API_BASE_URL =
+const DEPLOYED_BACKEND_URL = 'https://portfolio-rag-backend-vkq8.onrender.com';
+
+const rawApiUrl =
   (import.meta.env.VITE_API_URL as string) ||
   (import.meta.env.VITE_API_BASE_URL as string) ||
-  'http://localhost:8000';
+  (import.meta.env.PROD ? DEPLOYED_BACKEND_URL : 'http://localhost:8000');
+
+const API_BASE_URL = rawApiUrl.replace(/\/+$/, '');
 
 let messageSequence = 0;
 const createMessageId = (prefix: string): string => {
@@ -116,7 +120,7 @@ export const FloatingAssistant: React.FC = () => {
     } catch (err: unknown) {
       const errorMsg =
         err instanceof Error && err.message.includes('Failed to fetch')
-          ? `Could not connect to the RAG backend server at ${API_BASE_URL}. Please verify that the FastAPI backend is running (python -m uvicorn backend.main:app --port 8000), or reach out directly to Vasudev at gajjelavasudev@gmail.com.`
+          ? `Could not connect to the assistant backend service at ${API_BASE_URL}. Please try again shortly or reach out directly to Vasudev at gajjelavasudev@gmail.com.`
           : err instanceof Error
           ? err.message
           : 'An unexpected connection error occurred. Please try again.';
