@@ -1,0 +1,176 @@
+/* ==========================================================================
+   ELEVATED CUSTOM CURSOR — Google Stitch Editorial Systems Portfolio
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Native Cursor Suppression on Fine Pointer Desktop Devices
+   -------------------------------------------------------------------------- */
+@media (hover: hover) and (pointer: fine) {
+  html.has-custom-cursor,
+  html.has-custom-cursor body,
+  html.has-custom-cursor a,
+  html.has-custom-cursor button,
+  html.has-custom-cursor [role="button"],
+  html.has-custom-cursor .project-card,
+  html.has-custom-cursor .notes-banner-card,
+  html.has-custom-cursor .terminal-bar,
+  html.has-custom-cursor .portrait-card {
+    cursor: none !important;
+  }
+
+  /* Preserve standard text editing cursor in forms and editable fields */
+  html.has-custom-cursor input,
+  html.has-custom-cursor textarea,
+  html.has-custom-cursor [contenteditable="true"] {
+    cursor: text !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Cursor Elements (Central Dot & Trailing Contextual Ring)
+   -------------------------------------------------------------------------- */
+.custom-cursor-dot,
+.custom-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  user-select: none;
+  will-change: transform;
+}
+
+/* Central Precise Dot */
+.custom-cursor-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--accent-rust);
+  opacity: 0.9;
+  transition: opacity 0.2s ease, transform 0.2s var(--ease-out-expo), background-color 0.2s ease;
+}
+
+/* Outer Trailing Smooth Ring */
+.custom-cursor-ring {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid rgba(217, 83, 47, 0.4);
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.24s var(--ease-out-expo),
+              height 0.24s var(--ease-out-expo),
+              border-radius 0.24s var(--ease-out-expo),
+              border-color 0.2s ease,
+              background-color 0.2s ease,
+              box-shadow 0.2s ease,
+              opacity 0.2s ease;
+}
+
+/* Contextual Badge Text inside Ring (Using Inter font with semibold weight) */
+.cursor-badge-text {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #FFFFFF;
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 0.16s ease, transform 0.18s var(--ease-out-expo);
+  white-space: nowrap;
+  line-height: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Contextual Hover States
+   -------------------------------------------------------------------------- */
+
+/* Hovering Standard Interactive Elements (Links, Buttons) */
+.custom-cursor-ring.cursor--hover {
+  width: 44px;
+  height: 44px;
+  border-color: var(--accent-rust);
+  background-color: rgba(217, 83, 47, 0.08);
+}
+
+.custom-cursor-dot.cursor--hover {
+  transform: translate(-50%, -50%) scale(1.4);
+}
+
+/* Hovering Project Previews — Transforms into sleek "VIEW ↗" pill */
+.custom-cursor-ring.cursor--view {
+  width: 78px;
+  height: 30px;
+  border-radius: 9999px;
+  background-color: var(--accent-rust);
+  border-color: var(--accent-rust);
+  box-shadow: 0 4px 14px rgba(217, 83, 47, 0.32);
+}
+
+.custom-cursor-ring.cursor--view .cursor-badge-text {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.custom-cursor-dot.cursor--view {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+}
+
+/* Dark Theme Adaptations (Footer & Dark Terminal) */
+.custom-cursor-dot.cursor--dark-mode {
+  background-color: #FFFFFF;
+}
+
+.custom-cursor-ring.cursor--dark-mode {
+  border-color: rgba(244, 244, 245, 0.45);
+}
+
+.custom-cursor-ring.cursor--dark-mode.cursor--hover {
+  border-color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.custom-cursor-ring.cursor--dark-mode.cursor--view {
+  background-color: #FFFFFF;
+  border-color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.2);
+}
+
+.custom-cursor-ring.cursor--dark-mode.cursor--view .cursor-badge-text {
+  color: #111113;
+}
+
+/* Text Editing State (Inputs/Textareas) -> Custom cursor hides */
+.custom-cursor-dot.cursor--text-mode,
+.custom-cursor-ring.cursor--text-mode {
+  opacity: 0 !important;
+}
+
+/* Off-screen or Inactive Cursor */
+.custom-cursor-dot.cursor--hidden,
+.custom-cursor-ring.cursor--hidden {
+  opacity: 0 !important;
+}
+
+/* --------------------------------------------------------------------------
+   Accessibility & Responsive Fallbacks
+   -------------------------------------------------------------------------- */
+/* Hide custom cursor completely on touch devices */
+@media (hover: none) or (pointer: coarse) {
+  .custom-cursor-dot,
+  .custom-cursor-ring {
+    display: none !important;
+  }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .custom-cursor-dot,
+  .custom-cursor-ring {
+    display: none !important;
+  }
+}
