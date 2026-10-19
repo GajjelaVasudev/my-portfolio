@@ -7,6 +7,7 @@ import { SelectedWork } from './components/SelectedWork';
 import { Experience } from './components/Experience';
 import { CoreTechnicalStack } from './components/CoreTechnicalStack';
 import { VerifiedCredentials } from './components/VerifiedCredentials';
+import { CodingProfiles } from './components/CodingProfiles';
 import { NotesBanner } from './components/NotesBanner';
 import { ContactFooter } from './components/ContactFooter';
 import { CustomCursor } from './components/CustomCursor';
@@ -47,7 +48,10 @@ export const App: React.FC = () => {
         {/* 6. Verified Credentials Section */}
         <VerifiedCredentials />
 
-        {/* 7. Notes & Ideas Banner */}
+        {/* 7. Coding Profiles Section */}
+        <CodingProfiles />
+
+        {/* 8. Notes & Ideas Banner */}
         <NotesBanner />
       </main>
 

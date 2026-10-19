@@ -98,6 +98,22 @@ export interface CredentialsData {
   items: CredentialItem[];
 }
 
+export interface CodingProfileItem {
+  id: string;
+  platform: string;
+  username: string;
+  profileUrl: string;
+  badge?: string;
+  actionText?: string;
+}
+
+export interface CodingProfilesData {
+  sectionHeading: string;
+  kicker: string;
+  supportingLine: string;
+  items: CodingProfileItem[];
+}
+
 export interface PortfolioData {
   personal: {
     name: string;
@@ -145,6 +161,7 @@ export interface PortfolioData {
   experience: ExperienceSectionData;
   technicalStack: TechnicalStackData;
   credentials: CredentialsData;
+  codingProfiles: CodingProfilesData;
   notes: {
     sectionHeading: string;
     tag: string;
@@ -428,6 +445,46 @@ export const portfolioData: PortfolioData = {
         credentialId: "DB-SQL-4122",
         verificationUrl: "https://github.com/GajjelaVasudev",
         actionText: "View Credential ↗"
+      }
+    ]
+  },
+
+  codingProfiles: {
+    sectionHeading: "CODING PROFILES",
+    kicker: "PROBLEM SOLVING & PRACTICE",
+    supportingLine: "Competitive programming and algorithmic problem-solving profiles across major platforms.",
+    items: [
+      {
+        id: "leetcode",
+        platform: "LeetCode",
+        username: "Vasudev_gajjela",
+        profileUrl: "https://leetcode.com/u/Vasudev_gajjela/",
+        badge: "ALGORITHMS",
+        actionText: "View Profile"
+      },
+      {
+        id: "codechef",
+        platform: "CodeChef",
+        username: "vkl2400031804",
+        profileUrl: "https://www.codechef.com/users/vkl2400031804",
+        badge: "COMPETITIVE",
+        actionText: "View Profile"
+      },
+      {
+        id: "codeforces",
+        platform: "Codeforces",
+        username: "Gajjela_Vasudev",
+        profileUrl: "https://codeforces.com/profile/Gajjela_Vasudev",
+        badge: "CONTESTS",
+        actionText: "View Profile"
+      },
+      {
+        id: "hackerrank",
+        platform: "HackerRank",
+        username: "h2400031804",
+        profileUrl: "https://www.hackerrank.com/profile/h2400031804",
+        badge: "CHALLENGES",
+        actionText: "View Profile"
       }
     ]
   },

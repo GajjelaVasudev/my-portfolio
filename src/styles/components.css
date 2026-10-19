@@ -1636,6 +1636,195 @@
 }
 
 /* --------------------------------------------------------------------------
+   CODING PROFILES SECTION (#coding-profiles)
+   -------------------------------------------------------------------------- */
+.coding-profiles-section {
+  padding-top: var(--section-spacing-y);
+  padding-bottom: clamp(3.5rem, 6vw, 5.5rem);
+}
+
+.coding-profiles-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(1rem, 2vw, 1.75rem);
+  border-top: 1px solid var(--border-hairline);
+  padding-top: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+.coding-profile-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-hairline);
+  box-shadow: var(--shadow-subtle);
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.35rem, 2vw, 1.75rem);
+  border-radius: 2px;
+  position: relative;
+  transition: border-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.coding-profile-card:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+
+.profile-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.profile-icon-wrap {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  color: var(--text-primary);
+  transition: transform var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.coding-profile-card:hover .profile-icon-wrap {
+  border-color: var(--border-strong);
+  background-color: var(--bg-surface);
+  transform: translateY(-1px);
+}
+
+.platform-svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.leetcode-svg {
+  color: #D9532F;
+}
+
+.codechef-svg {
+  color: #5B4638;
+}
+
+.hackerrank-svg {
+  color: #059669;
+}
+
+.profile-badge {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.05em;
+  color: var(--accent-rust);
+  text-transform: uppercase;
+}
+
+.profile-body {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+
+.profile-platform-name {
+  font-family: var(--font-sans);
+  font-size: clamp(1.15rem, 1.4vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+  margin-bottom: 0.85rem;
+  line-height: 1.25;
+}
+
+.profile-username-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.profile-username-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.profile-username-pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--text-primary);
+  background-color: var(--bg-surface-subtle);
+  border: 1px solid var(--border-hairline);
+  padding: 0.35rem 0.65rem;
+  border-radius: 3px;
+  word-break: break-all;
+  transition: border-color var(--transition-fast);
+}
+
+.coding-profile-card:hover .profile-username-pill {
+  border-color: var(--border-strong);
+}
+
+.profile-card-footer {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 1.15rem;
+  margin-top: auto;
+}
+
+.profile-action-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+  border: 1px solid var(--border-hairline);
+  background-color: var(--bg-surface);
+  padding: 0.5rem 0.85rem;
+  border-radius: 3px;
+  letter-spacing: 0.01em;
+  transition: all var(--transition-fast);
+}
+
+.profile-action-link:hover {
+  border-color: var(--text-primary);
+  background-color: var(--text-primary);
+  color: #FFFFFF;
+}
+
+.profile-link-arrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  transition: transform var(--transition-fast);
+}
+
+.profile-action-link:hover .profile-link-arrow {
+  transform: translate(2px, -2px);
+}
+
+@media (max-width: 1024px) {
+  .coding-profiles-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .coding-profiles-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --------------------------------------------------------------------------
    NOTES SECTION (#notes)
    -------------------------------------------------------------------------- */
 .notes-section {
