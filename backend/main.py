@@ -3,6 +3,14 @@ FastAPI application for the Portfolio RAG Assistant.
 Provides rate-limited, grounded retrieval-augmented generation endpoints.
 """
 
+import sys
+from pathlib import Path
+
+# Ensure project root is in sys.path so 'backend' package is resolvable regardless of execution directory
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
 import logging
 from contextlib import asynccontextmanager
 from typing import List, Optional
@@ -20,6 +28,7 @@ from backend.database import get_db, init_db
 from backend.models import FileIndex, DocumentChunk
 from backend.retriever import retrieve_relevant_chunks
 from backend.llm import generate_grounded_answer
+from backend.embeddings import GeminiEmbeddingError
 
 # Setup logging
 logging.basicConfig(
@@ -146,35 +155,46 @@ def chat_endpoint(
 
     logger.info(f"Received chat inquiry: '{clean_query[:60]}...' from {get_remote_address(request)}")
 
-    # 1. Retrieve relevant passages
-    retrieved_chunks = retrieve_relevant_chunks(
-        db=db,
-        query=clean_query,
-        top_k=settings.top_k_chunks,
-        threshold=settings.similarity_threshold
-    )
+    try:
+        # 1. Retrieve relevant passages
+        retrieved_chunks = retrieve_relevant_chunks(
+            db=db,
+            query=clean_query,
+            top_k=settings.top_k_chunks,
+            threshold=settings.similarity_threshold
+        )
 
-    # 2. Convert history to dictionary format
-    history_dicts = [
-        {"role": turn.role, "content": turn.content}
-        for turn in (payload.history or [])
-    ]
+        # 2. Convert history to dictionary format
+        history_dicts = [
+            {"role": turn.role, "content": turn.content}
+            for turn in (payload.history or [])
+        ]
 
-    # 3. Generate grounded answer
-    result = generate_grounded_answer(
-        query=clean_query,
-        retrieved_chunks=retrieved_chunks,
-        history=history_dicts
-    )
+        # 3. Generate grounded answer
+        result = generate_grounded_answer(
+            query=clean_query,
+            retrieved_chunks=retrieved_chunks,
+            history=history_dicts
+        )
 
-    return ChatResponse(
-        answer=result["answer"],
-        sources=[
-            SourceReference(
-                file_name=src["file_name"],
-                section_title=src["section_title"]
-            )
-            for src in result.get("sources", [])
-        ],
-        is_fallback=result.get("is_fallback", False)
-    )
+        return ChatResponse(
+            answer=result["answer"],
+            sources=[
+                SourceReference(
+                    file_name=src["file_name"],
+                    section_title=src["section_title"]
+                )
+                for src in result.get("sources", [])
+            ],
+            is_fallback=result.get("is_fallback", False)
+        )
+    except GeminiEmbeddingError as exc:
+        logger.warning(f"Embedding error: {exc}")
+        return ChatResponse(
+            answer=(
+                "The assistant backend is running, but requires a Google Gemini API key to vectorize queries and search the knowledge base. "
+                "Please configure `GEMINI_API_KEY` in `backend/.env` (or set `EMBEDDING_MOCK_MODE=true` for offline testing)."
+            ),
+            sources=[],
+            is_fallback=True
+        )

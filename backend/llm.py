@@ -118,11 +118,25 @@ def generate_grounded_answer(
             max_output_tokens=600
         )
 
-        response = client.models.generate_content(
-            model=settings.gemini_generation_model,
-            contents=user_prompt,
-            config=config
-        )
+        try:
+            response = client.models.generate_content(
+                model=settings.gemini_generation_model,
+                contents=user_prompt,
+                config=config
+            )
+        except Exception as model_err:
+            if "not found" in str(model_err).lower() or "404" in str(model_err):
+                logger.warning(
+                    f"Configured model '{settings.gemini_generation_model}' unavailable ({model_err}), "
+                    "falling back to 'gemini-flash-latest'..."
+                )
+                response = client.models.generate_content(
+                    model="gemini-flash-latest",
+                    contents=user_prompt,
+                    config=config
+                )
+            else:
+                raise model_err
 
         answer_text = response.text.strip() if response.text else FALLBACK_MESSAGE
         is_fallback = "don't have enough verified information" in answer_text.lower()

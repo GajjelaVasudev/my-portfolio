@@ -32,7 +32,7 @@ class Settings(BaseSettings):
     )
 
     gemini_api_key: Optional[str] = Field(default=None, description="Google Gemini API key")
-    gemini_generation_model: str = Field(default="gemini-1.5-flash", description="Gemini generation model (e.g. gemini-1.5-flash or gemini-2.0-flash)")
+    gemini_generation_model: str = Field(default="gemini-flash-latest", description="Gemini generation model (e.g. gemini-flash-latest or gemini-2.5-flash)")
     gemini_embedding_model: str = Field(default="gemini-embedding-001", description="Gemini embedding model (gemini-embedding-001)")
     gemini_temperature: float = Field(default=0.2, description="Temperature for grounded generation")
     embedding_dimension: int = Field(default=768, description="Vector dimension for gemini-embedding-001 (768)")
