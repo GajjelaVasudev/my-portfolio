@@ -20,13 +20,22 @@ const SUGGESTED_QUESTIONS = [
 ];
 
 const DEPLOYED_BACKEND_URL = 'https://portfolio-rag-backend-vkq8.onrender.com';
+const LOCAL_DEV_URL = 'http://127.0.0.1:8000';
 
-const rawApiUrl =
+// In local development, default to local FastAPI backend; in production, use deployed Render backend
+const defaultUrl = import.meta.env.DEV ? LOCAL_DEV_URL : DEPLOYED_BACKEND_URL;
+
+// Resolve API base URL: check VITE_API_URL, VITE_API_BASE_URL, or fallback to default
+const rawConfiguredUrl =
   (import.meta.env.VITE_API_URL as string) ||
-  (import.meta.env.VITE_API_BASE_URL as string) ||
-  (import.meta.env.PROD ? DEPLOYED_BACKEND_URL : 'http://localhost:8000');
+  (import.meta.env.VITE_API_BASE_URL as string);
 
-const API_BASE_URL = rawApiUrl.replace(/\/+$/, '');
+const rawUrl = rawConfiguredUrl && rawConfiguredUrl.trim().length > 0
+  ? rawConfiguredUrl.trim()
+  : defaultUrl;
+
+// Normalize: remove trailing slash and strip duplicate trailing /api
+const API_BASE_URL = rawUrl.replace(/\/+$/, '').replace(/\/api$/, '');
 
 let messageSequence = 0;
 const createMessageId = (prefix: string): string => {
@@ -116,6 +125,7 @@ export const FloatingAssistant: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingStatus, setLoadingStatus] = useState('Searching portfolio knowledge base...');
   const [lastFailedQuery, setLastFailedQuery] = useState<string | null>(null);
 
   const [messages, setMessages] = useState<ChatMessage[]>([
@@ -129,6 +139,7 @@ export const FloatingAssistant: React.FC = () => {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const activeAbortControllerRef = useRef<AbortController | null>(null);
 
   // Auto-scroll to bottom on new messages
   useEffect(() => {
@@ -144,6 +155,15 @@ export const FloatingAssistant: React.FC = () => {
     }
   }, [isOpen]);
 
+  // Clean up any in-flight request on unmount
+  useEffect(() => {
+    return () => {
+      if (activeAbortControllerRef.current) {
+        activeAbortControllerRef.current.abort();
+      }
+    };
+  }, []);
+
   // Close on Escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -155,22 +175,52 @@ export const FloatingAssistant: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen]);
 
-  const handleSendMessage = async (textToSend?: string) => {
+  const handleSendMessage = async (textToSend?: string, isRetry = false) => {
     const text = (textToSend || query).trim();
     if (!text || isLoading) return;
 
-    const userMessage: ChatMessage = {
-      id: createMessageId('user'),
-      role: 'user',
-      content: text
-    };
+    if (isRetry) {
+      // Remove any prior error bubble without duplicating the user's question
+      setMessages((prev) => prev.filter((m) => !m.isError));
+    } else {
+      const userMessage: ChatMessage = {
+        id: createMessageId('user'),
+        role: 'user',
+        content: text
+      };
+      setMessages((prev) => [...prev, userMessage]);
+      setQuery('');
+    }
 
-    setMessages((prev) => [...prev, userMessage]);
-    setQuery('');
     setLastFailedQuery(null);
     setIsLoading(true);
+    setLoadingStatus('Searching portfolio knowledge base...');
 
-    // Prepare session history for context
+    // Progressive status timers for cold-start transparency
+    const statusTimer1 = setTimeout(() => {
+      setLoadingStatus('Synthesizing verified response...');
+    }, 4000);
+    const statusTimer2 = setTimeout(() => {
+      setLoadingStatus('Waking assistant service, please hold on...');
+    }, 12000);
+    const statusTimer3 = setTimeout(() => {
+      setLoadingStatus('Finalizing response from portfolio...');
+    }, 28000);
+
+    // Cancel any stale in-flight controller
+    if (activeAbortControllerRef.current) {
+      activeAbortControllerRef.current.abort();
+    }
+    const abortController = new AbortController();
+    activeAbortControllerRef.current = abortController;
+
+    // 60-second bounded timeout (accommodates Render free-tier cold starts)
+    const timeoutId = setTimeout(() => abortController.abort(), 60000);
+
+    // Generate unique request ID for frontend-backend correlation
+    const requestId = `req_${Math.random().toString(36).substring(2, 10)}`;
+
+    // Prepare session history for RAG context (excluding errors)
     const historyPayload = messages
       .filter((m) => !m.isError)
       .slice(-4)
@@ -180,19 +230,23 @@ export const FloatingAssistant: React.FC = () => {
       const response = await fetch(`${API_BASE_URL}/api/chat`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'X-Request-ID': requestId
         },
         body: JSON.stringify({
           query: text,
           history: historyPayload
-        })
+        }),
+        signal: abortController.signal
       });
+
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         if (response.status === 429) {
-          throw new Error('Rate limit exceeded (too many queries). Please wait a minute before asking again.');
+          throw new Error('Rate limit reached. Please wait a moment before asking again.');
         }
-        throw new Error(`Server returned HTTP ${response.status}`);
+        throw new Error(`Server returned status ${response.status}`);
       }
 
       const data = await response.json();
@@ -200,18 +254,26 @@ export const FloatingAssistant: React.FC = () => {
       const assistantMessage: ChatMessage = {
         id: createMessageId('asst'),
         role: 'assistant',
-        content: data.answer,
-        sources: data.sources
+        content: data.answer || "I'm sorry, I couldn't find an answer for that.",
+        sources: data.is_fallback ? [] : data.sources
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (err: unknown) {
-      const errorMsg =
-        err instanceof Error && err.message.includes('Failed to fetch')
-          ? `Could not connect to the assistant backend service at ${API_BASE_URL}. Please try again shortly or reach out directly to Vasudev at gajjelavasudev@gmail.com.`
-          : err instanceof Error
-          ? err.message
-          : 'An unexpected connection error occurred. Please try again.';
+      clearTimeout(timeoutId);
+      console.warn(`[Leo Diagnostic - ${requestId}]`, err);
+
+      let userFriendlyError = 'Leo is temporarily unavailable. Please try again.';
+
+      if (err instanceof Error) {
+        if (err.name === 'AbortError') {
+          userFriendlyError = 'The request took too long to complete. Please try again.';
+        } else if (err.message.includes('Rate limit') || err.message.includes('429')) {
+          userFriendlyError = 'Rate limit reached. Please wait a moment before asking again.';
+        } else if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError')) {
+          userFriendlyError = 'Could not connect to the assistant backend service. Please try again in a moment.';
+        }
+      }
 
       setLastFailedQuery(text);
       setMessages((prev) => [
@@ -219,11 +281,16 @@ export const FloatingAssistant: React.FC = () => {
         {
           id: createMessageId('err'),
           role: 'assistant',
-          content: errorMsg,
+          content: userFriendlyError,
           isError: true
         }
       ]);
     } finally {
+      clearTimeout(statusTimer1);
+      clearTimeout(statusTimer2);
+      clearTimeout(statusTimer3);
+      clearTimeout(timeoutId);
+      activeAbortControllerRef.current = null;
       setIsLoading(false);
     }
   };
@@ -337,8 +404,8 @@ export const FloatingAssistant: React.FC = () => {
                         : msg.content}
                     </div>
 
-                    {/* Subtle inline source names without cards, paths, or boxes */}
-                    {uniqueSources.length > 0 && (
+                    {/* Inline source names - only display for verified answers */}
+                    {uniqueSources.length > 0 && !msg.isError && (
                       <div className="chat-sources-inline" aria-label="Reference sources">
                         <span className="sources-inline-label">Sources:</span> {uniqueSources.join(' · ')}
                       </div>
@@ -349,7 +416,8 @@ export const FloatingAssistant: React.FC = () => {
                       <button
                         type="button"
                         className="error-retry-btn"
-                        onClick={() => handleSendMessage(lastFailedQuery)}
+                        onClick={() => handleSendMessage(lastFailedQuery, true)}
+                        disabled={isLoading}
                       >
                         <svg
                           width="12"
@@ -404,12 +472,13 @@ export const FloatingAssistant: React.FC = () => {
               </div>
             )}
 
-            {/* Typing Indicator */}
+            {/* Typing / Loading Indicator with Progressive Status */}
             {isLoading && (
               <div className="assistant-typing-indicator" aria-label="Leo is responding">
                 <span className="typing-dot" />
                 <span className="typing-dot" />
                 <span className="typing-dot" />
+                <span className="typing-status-text">{loadingStatus}</span>
               </div>
             )}
 

@@ -1,27 +1,22 @@
-# Verified Certifications & Accreditations
+# Verified Credentials & Certifications
 
-This document catalogues genuine certifications, verified technical coursework, and academic credentials earned by Gajjela Vasudev.
+This document catalogues the verified technical credentials and certifications earned by Gajjela Vasudev.
 
-## Java Programming & Object-Oriented Design
-- **Credential Name**: Java Programming & Object-Oriented Design
-- **Issuing Organization**: Oracle / Coursera Verified
-- **Issue Date**: 2024
-- **Credential ID**: JAVA-DS-2024-VG
-- **Verification URL**: https://github.com/GajjelaVasudev
-- **Core Competencies Covered**: Core Java, OOP architecture, inheritance, polymorphism, generic programming, exception handling, and collections framework.
+## 1. Cambridge Linguaskill English
+- **Credential Name**: Cambridge Linguaskill English
+- **Level**: B2
+- **Category**: English Proficiency
+- **Credential Link**: https://drive.google.com/file/d/1oB1gRHQOWxI3JFNOaPYoH3gLZAYQpTXD/view?usp=sharing
+- **Summary**: Demonstrates independent English language proficiency (CEFR Level B2) covering reading, writing, listening, and speaking in professional contexts.
 
-## Full-Stack Web Development & Microservices
-- **Credential Name**: Full-Stack Web Development & Microservices
-- **Issuing Organization**: Meta / Coursera Verified
-- **Issue Date**: 2023
-- **Credential ID**: FS-ARCH-9948
-- **Verification URL**: https://github.com/GajjelaVasudev
-- **Core Competencies Covered**: React frontends, Node.js/Express backends, REST API architecture, asynchronous data flow, and decoupled service orchestration.
+## 2. GitHub Copilot Certification
+- **Credential Name**: GitHub Copilot Certification
+- **Category**: Developer Tools / AI-Assisted Development
+- **Credential Link**: https://learn.microsoft.com/api/credentials/share/en-us/VasuGajjela-3547/D4C9EFC6B33D353A?sharingId=83333CF69BBB7554
+- **Summary**: Demonstrates proficiency in utilizing AI-assisted developer tools, prompt crafting, code generation, and test creation with GitHub Copilot within software engineering workflows.
 
-## Database Systems & SQL Optimization
-- **Credential Name**: Database Systems & SQL Optimization
-- **Issuing Organization**: Stanford Online / EdX Verified
-- **Issue Date**: 2023
-- **Credential ID**: DB-SQL-4122
-- **Verification URL**: https://github.com/GajjelaVasudev
-- **Core Competencies Covered**: Relational database modeling, SQL indexing strategies, query execution plans, normalization, and ACID transaction isolation.
+## 3. AWS Certified Cloud Practitioner
+- **Credential Name**: AWS Certified Cloud Practitioner
+- **Category**: Cloud Computing
+- **Credential Link**: https://drive.google.com/file/d/14dmuVTVGn08rc6feKpH3qxN74XwJylIR/view?usp=sharing
+- **Summary**: Validates foundational knowledge of Amazon Web Services (AWS) cloud infrastructure, core services (compute, storage, databases, networking), security, compliance, and cloud architecture fundamentals.

@@ -1,39 +1,35 @@
 # Core Technical Stack & Capabilities
 
-This document outlines the verified technical capabilities, languages, tools, and theoretical foundations of Gajjela Vasudev.
+This document outlines the verified technical capabilities, languages, frameworks, tools, and theoretical foundations of Gajjela Vasudev. It clearly distinguishes between technologies applied in completed projects, technologies used in active work-in-progress projects, and technologies currently being learned or practiced.
 
-## Programming Languages (Primary Anchor)
-- **Java**: Primary language for backend systems, object-oriented design, multi-threading, concurrency, Spring framework, and enterprise architecture.
-- **TypeScript**: Typed application development, robust interface contracts, and modern frontend/backend tooling.
-- **JavaScript (ES6+)**: Core asynchronous primitives, event-loop mental models, browser APIs, and Node.js runtimes.
-- **Python**: Scripting, algorithmic modeling, data pipelines, automation, and backend services.
-- **C**: Foundational systems programming, memory management, pointers, and operating systems coursework.
+## 1. Technologies Applied in Completed Projects
 
-## Backend Development (Core Anchor)
-- **Spring Boot & Spring Cloud**: Microservice architecture, Netflix Eureka service discovery, dynamic routing, dependency injection, and JPA/Hibernate.
-- **Node.js & Express**: Event-driven asynchronous services, RESTful API design, middleware pipelines, and JWT authentication.
-- **REST APIs**: Strict contract design, resource modeling, idempotency, status code semantics, and pagination.
-- **Microservices Architecture**: Decoupled service topologies, fault isolation, asynchronous job queues, and retry mechanisms.
+These technologies have been actively used in implemented and deployed projects (including NxtGen LMS, Webinar Management System, and the Leo Portfolio RAG Assistant):
 
-## Frontend Development
-- **React (React 18 & 19)**: Functional components, custom hooks, state synchronization, concurrent rendering, and performance optimization.
-- **HTML5 & Vanilla CSS**: Semantic markup, CSS custom properties (variables), responsive layout grids, flexbox, and modern typography hierarchy.
-- **Responsive Web Design**: Mobile-first fluid scaling, clamp-based typography, accessible ARIA attributes, and reduced-motion considerations.
+- **Languages**: TypeScript, JavaScript (ES6+), Python
+- **Frontend Development**: React (React 18 & 19), Tailwind CSS, Vanilla CSS3 (custom variables, fluid responsive layouts), HTML5 semantic markup
+- **Backend Frameworks**: Node.js, Express, Django, Django REST Framework (DRF), FastAPI (used in Leo RAG backend)
+- **Databases & Vector Stores**: PostgreSQL, Supabase, pgvector (HNSW cosine vector indexing), SQLAlchemy
+- **Tools & Testing**: Git, GitHub, Postman, Vite, Pytest, Uvicorn, SlowAPI (rate limiting)
+- **Deployment & Cloud**: Vercel (frontend hosting), Render (backend hosting), Netlify
 
-## Databases & Caching
-- **PostgreSQL**: Relational schema design, ACID transactions, complex joins, indexing strategies, and pgvector extension.
-- **MongoDB**: Document data modeling, schema validation, aggregation pipelines, and indexing.
-- **Redis**: In-memory caching, TTL expiration strategies, session management, and rate limiting.
+## 2. Technologies in Active Work-in-Progress Projects
 
-## DevOps & Developer Tools
-- **Git & GitHub**: Distributed version control, pull request code review workflows, semantic branching, and Git actions.
-- **Docker**: Containerization, multi-stage Dockerfiles, Docker Compose service orchestration, and image optimization.
-- **Postman**: API testing, environment management, and automated test collections.
-- **Linux**: Command-line shell navigation, bash scripting, process management, and permissions.
+These technologies are actively implemented in ongoing projects (specifically the Scalable E-commerce Platform backend phase and competitive hackathon projects):
 
-## Core Computer Science Foundations
-- **Data Structures & Algorithms**: Arrays, linked lists, hash tables, trees, heaps, graphs, sorting, searching, dynamic programming, and Big-O computational complexity.
-- **Object-Oriented Programming (OOP)**: Inheritance, polymorphism, encapsulation, abstraction, and SOLID design principles.
-- **Database Management Systems (DBMS)**: Relational algebra, normalization (1NF-BCNF), indexing, query execution, transactions, and concurrency control.
-- **Operating Systems**: Processes, threads, concurrency, deadlocks, CPU scheduling, virtual memory, paging, and file systems.
-- **Computer Networks**: OSI & TCP/IP models, TCP vs. UDP, DNS resolution, HTTP/HTTPS, WebSockets, and socket programming.
+- **Databases & Cache**: MongoDB (flexible schema document storage), Redis (in-memory caching, session storage)
+- **Authentication & Security**: JSON Web Tokens (JWT), PostgreSQL Row-Level Security (RLS), PII sanitization
+- **AI Integration**: Google GenAI SDK (gemini-embedding-001, gemini-flash-latest), Retrieval-Augmented Generation (RAG)
+
+## 3. Technologies Currently Being Learned & Practiced
+
+These technologies represent active areas of academic study, coursework, algorithmic practice, and technical preparation:
+
+- **Enterprise Backend**: Java, Spring Boot, Spring Cloud, microservices architectural patterns, REST API design
+- **Foundational Languages**: C, C++ (used in systems coursework and computational problem solving)
+- **Cloud Computing**: AWS Cloud Infrastructure (AWS Certified Cloud Practitioner validated)
+- **Core Computer Science Foundations**:
+  - **Data Structures & Algorithms (DSA)**: Arrays, strings, linked lists, stacks, queues, trees, heaps, graphs, hashing, sorting, dynamic programming, and Big-O complexity analysis (practiced on LeetCode, CodeChef, Codeforces).
+  - **Object-Oriented Programming (OOP)**: Encapsulation, inheritance, polymorphism, abstraction, and SOLID design principles.
+  - **Database Management Systems (DBMS)**: Relational schema design, normalization (1NF-BCNF), ACID transactions, query indexing, and joins.
+  - **Operating Systems & Networks**: Process scheduling, threads, concurrency, virtual memory, TCP/IP, HTTP/HTTPS, WebSockets, and DNS.

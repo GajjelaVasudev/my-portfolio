@@ -118,8 +118,12 @@ def scan_knowledge_base(base_dir: Path) -> List[LoadedDocument]:
 
     for path in sorted(base_dir.rglob("*")):
         if path.is_file() and path.suffix.lower() in supported_exts:
-            # Skip hidden files or temporary files
-            if path.name.startswith(".") or path.name.startswith("~"):
+            # Skip hidden files, temporary files, or directory guides (README.md)
+            if (
+                path.name.startswith(".")
+                or path.name.startswith("~")
+                or path.name.lower() in ("readme.md", "guide.md")
+            ):
                 continue
             doc = loader_registry.load_file(path, base_dir)
             if doc:

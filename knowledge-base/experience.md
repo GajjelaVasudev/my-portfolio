@@ -1,26 +1,25 @@
-# Practical & Professional Experience
+# Experience & Leadership
 
-This document details practical work experience, internships, and research contributions by Gajjela Vasudev.
+This document records the practical experience, internships status, and collaborative leadership activities of Gajjela Vasudev.
 
-## Software Engineering Intern — Backend Engineering
-- **Organization**: Backend Engineering Internship
-- **Role**: Software Engineering Intern (Backend)
-- **Period**: 2024 — Present
-- **Location**: Hybrid
-- **Key Responsibilities & Contributions**:
-  - Engineered modular, high-throughput REST API endpoints with strict input validation boundaries and structured error isolation.
-  - Profiled database query execution patterns, identified bottlenecks, and applied targeted indexes to optimize query latency and system throughput.
-  - Contributed to automated unit testing suites, integration tests, and pull request review workflows.
-  - Collaborated with engineering peers on Docker containerization and CI/CD deployment routines.
-- **Technologies Used**: Java, Spring Boot, PostgreSQL, Docker, Git, REST APIs.
+## Professional Experience & Internships Status
 
-## Systems Contributor & Student Developer
-- **Organization**: Academic & Systems Research Laboratory
-- **Role**: Systems Contributor & Student Developer
-- **Period**: 2023 — 2024
-- **Location**: On-Campus
-- **Key Responsibilities & Contributions**:
-  - Investigated decoupled microservice topologies, service discovery mechanics, and fault isolation in distributed environments.
-  - Designed and benchmarked dynamic service routing topologies using Netflix Eureka and Spring Cloud Gateway.
-  - Documented architectural tradeoffs between synchronous REST and asynchronous message-driven architectures.
-- **Technologies Used**: Java, Spring Boot, Spring Cloud, Netflix Eureka, Docker, Microservices.
+- **Status**: No professional internships added yet.
+- **Context**: Vasudev is currently a full-time Bachelor of Technology (B.Tech) student in Computer Science and Engineering at KL University (expected graduation May 2028).
+- **Trajectory**: Actively preparing for software engineering internships, focusing on backend systems, full-stack web development, algorithmic problem solving, and practical AI applications.
+- **Academic Projects & Practical Work**: Applies engineering concepts through substantial full-stack projects (such as NxtGen LMS, Scalable E-commerce Platform, and Webinar Management System) and competitive hackathons.
+
+## Campus Leadership & Extracurricular Activities
+
+### UX Design Club Member — KL University
+- **Role**: Member & UI Designer
+- **Key Contributions**:
+  - Designed interactive user interface prototypes using Figma.
+  - Collaborated with multidisciplinary peers on frontend design and user-centered interface principles.
+  - Focused on clean typography hierarchy, responsive layout systems, and intuitive user workflows.
+
+### Technical Presentations & Discussions — KL University
+- **Role**: Student Participant & Speaker
+- **Key Contributions**:
+  - Participated in engineering group discussions and technical presentations.
+  - Presented architectural concepts and software patterns to peers, strengthening technical communication, cross-functional collaboration, and team delivery skills.

@@ -97,13 +97,17 @@ Because Google Gemini's `gemini-embedding-001` configured with `output_dimension
    - `PYTHON_VERSION`: `3.13.5`
    - `ENVIRONMENT`: `production`
    - `DATABASE_URL`: *(Your Supabase connection string from Step 2)*
-   - `GEMINI_API_KEY`: *(Your Google AI Studio API key from Step 1)*
-   - `GEMINI_GENERATION_MODEL`: `gemini-1.5-flash`
+   - `GEMINI_API_KEY` (or `GOOGLE_API_KEY`): *(Your Google AI Studio API key - Primary Provider)*
+   - `GEMINI_GENERATION_MODEL`: `gemini-flash-latest`
    - `GEMINI_EMBEDDING_MODEL`: `gemini-embedding-001`
    - `EMBEDDING_DIMENSION`: `768`
+   - `OPENAI_API_KEY`: *(Optional: OpenAI API key for Fallback 1)*
+   - `OPENAI_MODEL`: `gpt-4o-mini`
+   - `GROQ_API_KEY`: *(Optional: Groq API key for Fallback 2)*
+   - `GROQ_MODEL`: `llama-3.3-70b-versatile`
    - `CORS_ORIGINS`: `https://your-portfolio.netlify.app,http://localhost:5173` *(Update with your Netlify URL once deployed)*
 5. Click **Create Web Service**.
-6. Once deployed, note down your Render backend URL (e.g. `https://portfolio-rag-backend.onrender.com`). Verify by visiting `https://portfolio-rag-backend.onrender.com/api/health`.
+6. Once deployed, note down your Render backend URL (e.g. `https://portfolio-rag-backend-vkq8.onrender.com`). Verify by visiting `https://portfolio-rag-backend-vkq8.onrender.com/health`.
 
 ---
 

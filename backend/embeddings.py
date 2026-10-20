@@ -56,7 +56,7 @@ def is_mock_vector(vector: List[float], zero_ratio_threshold: float = 0.4) -> bo
 
 class EmbeddingService:
     def __init__(self, mock_mode: Optional[bool] = None) -> None:
-        self.api_key: Optional[str] = settings.gemini_api_key
+        self.api_key: Optional[str] = settings.effective_gemini_api_key
         self.model: str = settings.gemini_embedding_model
         self.dimension: int = settings.embedding_dimension
         self.mock_mode: bool = settings.embedding_mock_mode if mock_mode is None else mock_mode
@@ -110,7 +110,7 @@ class EmbeddingService:
             if settings.embedding_mock_mode:
                 return [_generate_mock_embedding(t, self.dimension) for t in texts]
 
-            self.api_key = settings.gemini_api_key
+            self.api_key = settings.effective_gemini_api_key
             self.model = settings.gemini_embedding_model
             self.dimension = settings.embedding_dimension
             if not self.api_key or self.api_key in ("your_gemini_api_key_here", "your_openai_api_key_here"):

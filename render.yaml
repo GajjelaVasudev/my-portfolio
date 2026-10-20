@@ -4,7 +4,7 @@ services:
     runtime: python
     buildCommand: pip install -r backend/requirements.txt
     startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
-    healthCheckPath: /api/health
+    healthCheckPath: /health
     autoDeploy: true
     envVars:
       - key: PYTHON_VERSION
@@ -12,13 +12,23 @@ services:
       - key: ENVIRONMENT
         value: production
       - key: GEMINI_GENERATION_MODEL
-        value: gemini-1.5-flash
+        value: gemini-flash-lite-latest
       - key: GEMINI_EMBEDDING_MODEL
         value: gemini-embedding-001
       - key: EMBEDDING_DIMENSION
         value: 768
       - key: GEMINI_API_KEY
         sync: false
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GROQ_MODEL
+        value: llama-3.3-70b-versatile
       - key: DATABASE_URL
         sync: false
       - key: CORS_ORIGINS

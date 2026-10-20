@@ -3,103 +3,41 @@
 ## Identity & Professional Profile
 
 - **Full Name**: Gajjela Vasudev
-- **Role**: Aspiring Software Engineer & Developer
-- **Academic Background**: B.Tech Computer Science and Engineering Student at Koneru Lakshmaiah Education Foundation (KLEF)
-- **Expected Graduation**: 2028
-- **Primary Focus**: Backend engineering, modular full-stack applications, data structures and algorithms, distributed systems, and practical AI integration.
-- **Email**: vgajjella@gmail.com/2400031804cseelge@gmail.com
+- **Current Role**: Computer Science Undergraduate & Aspiring Software Engineer
+- **Academic Institution**: KL University (Koneru Lakshmaiah Education Foundation - KLEF)
+- **Degree**: Bachelor of Technology (B.Tech) in Computer Science and Engineering
+- **Current CGPA**: 9.6 / 10
+- **Expected Graduation**: May 2028
+- **Location**: Nellore, Andhra Pradesh, India
+- **Email**: vgajjella@gmail.com / 2400031804cseelge@gmail.com
 - **GitHub**: https://github.com/GajjelaVasudev
-- **LinkedIn**: www.linkedin.com/in/gajjela-vasudev
+- **LinkedIn**: https://linkedin.com/in/gajjelavasudev
+- **Resume**: Available on portfolio at `/resume.pdf`
 
+## Professional Summary
 
-## Engineering Philosophy
+Computer Science undergraduate at KL University with a CGPA of 9.6. Focused on designing and building reliable backend services, full-stack web applications, and practical AI-powered software solutions. Strong foundation in data structures, algorithms, object-oriented programming, and system design principles. Experienced in building full-stack web applications using React, TypeScript, Node.js/Express, Spring Boot, and Python, alongside relational (PostgreSQL) and document (MongoDB) databases.
 
-- **Substance Over Accidental Complexity**: Vasudev values understanding how systems work, how data moves between services, how state is managed, and how reliable APIs support application behavior.
-- **Modularity & Maintainability**: He focuses on clear separation of responsibilities, reusable components, well-defined service boundaries, and code that can be understood and maintained.
-- **Problem-Solving Fundamentals**: He is strengthening his understanding of data structures, algorithms, time and space complexity, and systematic problem-solving to write more efficient solutions.
-- **Practical AI Integration**: He explores how machine learning, generative AI, and large language models can solve practical problems when integrated thoughtfully into software applications.
-- **User Interface Discipline**: He values interfaces that are responsive, accessible, fast, and guided by clear typography and deliberate visual hierarchy.
-- **Learning by Building**: He prefers applying technical concepts in projects, debugging real implementation issues, and understanding why a solution works rather than simply copying code.
+## Engineering Philosophy & Core Principles
+
+- **Substance Over Accidental Complexity**: Vasudev believes in understanding how systems work under the hood—how data flows between services, how state is managed, and how resilient APIs support real application workflows.
+- **Build for the Real Workflow**: Before picking a framework or adding an AI feature, understand the user's real problem, existing constraints, and practical needs.
+- **Reliable Backends Are Built in the Details**: A backend is more than just a set of endpoints. True reliability depends on thorough validation, structured error handling, authorization, sensible database schemas, and predictable behavior when things fail.
+- **Learn Concepts by Building**: Documentation and tutorials are good starting points, but implementing small working prototypes, testing failure modes, and debugging issues is how real software mastery happens.
+- **Practical AI Integration**: Exploring how LLMs, semantic retrieval, and Retrieval-Augmented Generation (RAG) can solve real workflow challenges when grounded with authentic domain data.
 
 ## What He Enjoys Building
 
-- Backend services with REST APIs, structured validation, authentication, and clear error handling.
-- Modular web applications using React, TypeScript, and modern frontend tooling.
-- Database-backed applications using relational and NoSQL data stores.
-- Microservice-based systems involving API gateways, service discovery, and inter-service communication.
-- AI-enabled applications that integrate large language models, semantic retrieval, and Retrieval-Augmented Generation (RAG).
-- Practical tools and applications that address real-world workflow and information-management problems.
+- Full-stack web applications with responsive, accessible React/TypeScript user interfaces.
+- Backend services and REST APIs with structured validation, authentication (JWT), and clear error boundaries.
+- Relational and document database schemas with query optimization and integrity constraints.
+- Grounded AI assistants and RAG pipelines combining vector search (pgvector) and large language models.
+- Practical tools that streamline workflows, reduce manual effort, and deliver tangible value.
 
-## Data Structures & Algorithms
+## What He Is Currently Exploring & Practicing
 
-Vasudev is developing his algorithmic problem-solving skills and understanding of computational efficiency.
-
-His learning interests include:
-
-- Arrays, strings, matrices, and linked lists.
-- Stacks, queues, trees, and graphs.
-- Searching, sorting, and hashing.
-- Recursion, backtracking, greedy algorithms, and dynamic programming.
-- Time and space complexity analysis using Big-O notation.
-- Applying suitable data structures and algorithmic patterns to coding problems.
-
-He uses DSA practice to improve logical reasoning, coding efficiency, and preparation for technical interviews.
-
-## Artificial Intelligence & Machine Learning
-
-Vasudev is interested in applying AI technologies to software engineering and practical applications.
-
-His areas of interest include:
-
-- Machine learning fundamentals and predictive models.
-- Neural networks and deep learning concepts.
-- Generative AI and large language models (LLMs).
-- Integrating AI APIs into web applications.
-- Retrieval-Augmented Generation (RAG) and semantic search.
-- Embedding-based retrieval from personal or domain-specific knowledge bases.
-- Building AI assistants that generate answers grounded in retrieved information.
-
-His portfolio assistant, Leo, uses a RAG pipeline to retrieve relevant information from a curated knowledge base and provide contextual answers through an AI model.
-
-## What He Is Currently Exploring
-
-- Strengthening DSA, programming fundamentals, and algorithmic problem-solving.
-- Building reliable backend services and improving API design.
-- Deepening practical knowledge of Java, Spring Boot, Node.js, and database integration.
-- Exploring microservices, distributed application architecture, and service communication.
-- Learning more about machine learning, generative AI, LLM integration, and RAG systems.
-- Improving testing, debugging, code quality, and deployment practices.
-- Building responsive React and TypeScript interfaces that integrate cleanly with backend systems.
-
-## Projects & Practical Application
-
-Vasudev's project work includes e-commerce applications, maternal healthcare workflows, and an online job recruitment system.
-
-These projects provide opportunities to explore backend APIs, database integration, authentication, application workflows, service architecture, and AI-assisted functionality.
-
-His portfolio assistant, Leo, also demonstrates how a knowledge base, vector embeddings, semantic retrieval, and an AI generation model can be combined into a practical application.
-
-Refer to the individual project files in `knowledge-base/projects/` for verified details about each project's architecture, technology stack, features, implementation status, and personal contributions.
-
-## Career Goals
-
-Vasudev aims to grow into a capable software engineer who can design, implement, test, and maintain reliable applications.
-
-He is interested in software engineering internships and opportunities involving backend development, full-stack engineering, problem-solving, and AI-enabled software.
-
-His long-term goal is to combine strong software engineering fundamentals with practical knowledge of modern technologies to build useful, maintainable, and dependable software.
-
-## Off-Screen Context & Interests
-
-- Exploring technical documentation and software engineering concepts.
-- Learning through hands-on projects and coding practice.
-- Improving problem-solving skills through algorithmic challenges.
-- Exploring thoughtful web design, typography, and user experience.
-
-## Information Accuracy Guidelines
-
-- Distinguish between technologies Vasudev has used in projects and those he is currently learning.
-- Do not describe a learning interest as professional expertise.
-- Do not invent employment, internships, awards, certifications, rankings, or project outcomes.
-- Refer to the relevant project, skills, experience, or credentials files for specific evidence.
-- When information is not documented, clearly state that it is unavailable in the knowledge base.
+- Data Structures & Algorithms and algorithmic problem solving on LeetCode, CodeChef, and Codeforces.
+- Scalable backend architectures, distributed systems concepts, and microservices patterns.
+- Deepening enterprise backend development with Java and Spring Boot.
+- Generative AI, embeddings, semantic retrieval, and RAG systems.
+- Testing, automated test suites, and clean deployment workflows.

@@ -9,17 +9,18 @@ This directory is the **single source of truth** for Vasudev's RAG Personal Assi
 ```text
 knowledge-base/
 ├── README.md               # This guide and document templates
-├── about.md                # Bio, philosophy, background, and interests
-├── skills.md               # Languages, frameworks, tools, and CS fundamentals
-├── experience.md           # Professional roles and internships
-├── hackathons.md           # Hackathons, competitions, and collaborative sprints
-├── certifications.md       # Verified certificates, IDs, and issuing orgs
-├── achievements.md         # Honors, milestones, and competitive profiles
-├── resume.pdf              # (Optional) Candidate PDF resume
+├── about.md                # Bio, summary, background, and education
+├── skills.md               # Verified skills (completed, in-progress, learning)
+├── experience.md           # Professional trajectory, internships, and activities
+├── hackathons.md           # Code for Good 2026, SIH, and competitive sprints
+├── certifications.md       # Verified credentials and verification links
+├── achievements.md         # Honors, achievements, and coding profiles
+├── notes.md                # Published engineering notes and principles
+├── resume.pdf              # Candidate resume PDF
 └── projects/               # Individual deep-dive project files
-    ├── online-job-recruitment.md
+    ├── nxtgen-lms.md
     ├── scalable-ecommerce.md
-    └── maternal-healthcare.md
+    └── webinar-management-system.md
 ```
 
 ---
