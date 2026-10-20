@@ -59,7 +59,15 @@ class Settings(BaseSettings):
 
     # Rate Limiting & Security
     rate_limit_per_minute: int = 20
-    cors_origins: str = "http://localhost:5173,http://localhost:3000,http://127.0.0.1:5173,https://portfolio-rag-backend-vkq8.onrender.com"
+    cors_origins: str = (
+        "https://devportfolio24.netlify.app,"
+        "https://vasudevbuilds.dpdns.org,"
+        "http://localhost:5173,"
+        "http://127.0.0.1:5173,"
+        "http://localhost:3000,"
+        "http://127.0.0.1:3000,"
+        "https://portfolio-rag-backend-vkq8.onrender.com"
+    )
 
     @property
     def effective_gemini_api_key(self) -> Optional[str]:
@@ -69,7 +77,17 @@ class Settings(BaseSettings):
 
     @property
     def cors_origins_list(self) -> List[str]:
-        return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
+        configured = [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
+        core_origins = [
+            "https://devportfolio24.netlify.app",
+            "https://vasudevbuilds.dpdns.org",
+            "http://localhost:5173",
+            "http://127.0.0.1:5173",
+            "http://localhost:3000",
+            "http://127.0.0.1:3000",
+            "https://portfolio-rag-backend-vkq8.onrender.com",
+        ]
+        return list(dict.fromkeys(configured + core_origins))
 
 
 # Global settings singleton

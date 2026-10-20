@@ -70,10 +70,12 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins_list,
-    allow_origin_regex=r"https://.*\.netlify\.app",
-    allow_credentials=True,
+    allow_origin_regex=r"^https://([a-zA-Z0-9_-]+\.)?netlify\.app$",
+    allow_credentials=False,
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
+    expose_headers=["X-Request-ID", "X-Response-Time"],
+    max_age=86400,
 )
 
 
@@ -180,6 +182,12 @@ def dependency_health_check(db: Session = Depends(get_db)):
 # --------------------------------------------------------------------------
 # Main Chat Endpoint (/api/chat)
 # --------------------------------------------------------------------------
+@app.options("/api/chat", include_in_schema=False)
+def chat_options():
+    """Explicit OPTIONS handler for non-preflight or load-balancer probes."""
+    return Response(status_code=status.HTTP_200_OK)
+
+
 @app.post(
     "/api/chat",
     response_model=ChatResponse,
