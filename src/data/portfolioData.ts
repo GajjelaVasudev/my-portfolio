@@ -15,16 +15,23 @@ export interface ProjectItem {
   metricValue?: string;
   actionText: string;
   actionUrl: string;
+  githubUrl?: string;
+  liveUrl?: string;
+  isPrivate?: boolean;
   imageAlt: string;
   isFeatured?: boolean;
+  placeholderInitials?: string;
 }
 
-export type HackathonStatus = 'Shortlisted' | 'Finalist' | 'Participant' | 'Winner';
+export type HackathonStatus = 'Shortlisted' | 'Finalist' | 'Participant' | 'Winner' | 'Runner-up';
 
 export interface HackathonItem {
   id: string;
   name: string;
   status: HackathonStatus;
+  achievement?: string;
+  event?: string;
+  team?: string;
   role: string;
   date: string;
   projectTitle?: string;
@@ -34,6 +41,7 @@ export interface HackathonItem {
   technologies: string[];
   actionText?: string;
   actionUrl?: string;
+  isFeatured?: boolean;
 }
 
 export interface WorkExperienceItem {
@@ -83,11 +91,13 @@ export interface TechnicalStackData {
 export interface CredentialItem {
   id: string;
   name: string;
-  issuer: string;
-  issueDate: string;
+  category: string;
+  level?: string;
+  issuer?: string;
+  issueDate?: string;
   expiryDate?: string;
   credentialId?: string;
-  verificationUrl?: string;
+  verificationUrl: string;
   actionText?: string;
 }
 
@@ -112,6 +122,27 @@ export interface CodingProfilesData {
   kicker: string;
   supportingLine: string;
   items: CodingProfileItem[];
+}
+
+export interface NoteItem {
+  id: string;
+  number: string;
+  category: string;
+  readTime: string;
+  title: string;
+  preview: string;
+  paragraphs: string[];
+  listHeader?: string;
+  listItems?: string[];
+  conclusion?: string;
+  tags: string[];
+}
+
+export interface NotesSectionData {
+  sectionHeading: string;
+  kicker: string;
+  supportingLine: string;
+  items: NoteItem[];
 }
 
 export interface PortfolioData {
@@ -142,11 +173,7 @@ export interface PortfolioData {
     monogramTag: string;
     blueprintRole: string;
     blueprintSummary: string;
-    headline: {
-      lead: string;
-      italic: string;
-      trail: string;
-    };
+    headline: string;
     body: string;
     enjoyBuilding: {
       label: string;
@@ -162,13 +189,7 @@ export interface PortfolioData {
   technicalStack: TechnicalStackData;
   credentials: CredentialsData;
   codingProfiles: CodingProfilesData;
-  notes: {
-    sectionHeading: string;
-    tag: string;
-    readTime: string;
-    title: string;
-    url: string;
-  };
+  notes: NotesSectionData;
   contact: {
     sectionHeading: string;
     headline: {
@@ -187,18 +208,18 @@ export const portfolioData: PortfolioData = {
     lastName: "Vasudev",
     descriptor: "Software Engineer & Developer",
     role: "Software Engineer & Developer",
-    year: "2025",
+    year: "2026",
     heroHeadline: {
       lead: "Building ideas into",
       italic: "real-world",
       trail: "software."
     },
-    heroBio: "I'm a Computer Science student and software engineer who enjoys building reliable backend systems, modular web applications, and turning ideas into useful real-world software.",
-    footerBio: "Computer Science student and software engineer focused on building resilient backend systems, thoughtful web applications, and clean software.",
-    email: "gajjelavasudev@gmail.com",
+    heroBio: "Computer Science student and aspiring software engineer building reliable backend services, full-stack applications, and practical AI-powered tools.",
+    footerBio: "Computer Science student and aspiring software engineer focused on building reliable backend systems, thoughtful web applications, and practical software solutions.",
+    email: "vgajjella@gmail.com",
     githubUrl: "https://github.com/GajjelaVasudev",
     linkedinUrl: "https://linkedin.com/in/gajjelavasudev",
-    resumeUrl: "#resume"
+    resumeUrl: "/resume.pdf"
   },
 
   navigation: [
@@ -212,19 +233,21 @@ export const portfolioData: PortfolioData = {
   featuredProject: {
     id: "01",
     tag: "SELECTED WORK",
-    category: "FEATURED ARCHITECTURE",
-    title: "Online Job Recruitment System",
-    tech: ["Java", "Spring Boot", "Spring Cloud", "Eureka", "Docker"],
-    description: "A microservices-based recruitment application designed for decoupled service resilience, high-throughput applicant tracking, and automated candidate evaluation pipelines.",
+    category: "Learning Management System",
+    title: "NxtGen LMS",
+    tech: ["React", "TypeScript", "Tailwind CSS", "Node.js", "Express", "Supabase"],
+    description: "A learning management platform that organizes courses, learning materials, assessments, and student progress through role-based workflows.",
     bullets: [
-      "↳ Service Discovery & Dynamic Routing (Netflix Eureka)",
-      "↳ Containerized distributed deployment orchestration",
-      "↳ Asynchronous candidate ingestion pipelines"
+      "↳ Role-based workflows for Admins, Instructors & Students",
+      "↳ Course management, learning resources & assignment submission",
+      "↳ Dynamic assessment scoring and longitudinal student progress tracking"
     ],
-    metricLabel: "TOPOLOGY NOMINAL",
-    actionText: "INSPECT ARCHITECTURE & CODE →",
-    actionUrl: "https://github.com/GajjelaVasudev/online-job-recruitment",
-    imageAlt: "Distributed Service Topology and Talent Pipeline Dashboard",
+    metricLabel: "VERCEL DEPLOYMENT",
+    actionText: "LIVE DEMO →",
+    actionUrl: "https://nxt-gen-lms.vercel.app",
+    githubUrl: "https://github.com/GajjelaVasudev/NxtGen-LMS",
+    liveUrl: "https://nxt-gen-lms.vercel.app",
+    imageAlt: "NxtGen LMS landing page and learning management portal interface",
     isFeatured: true
   },
 
@@ -232,27 +255,31 @@ export const portfolioData: PortfolioData = {
     {
       id: "02",
       tag: "PROJECT 02",
-      category: "FULL-STACK APPLICATION",
+      category: "Full-Stack E-commerce",
       title: "Scalable E-commerce Platform",
-      tech: ["React", "Node.js", "Express", "MongoDB"],
-      description: "End-to-end modular digital storefront engineered for transactional consistency, instant catalog search, and checkout state persistence.",
-      metricLabel: "PERF: 98 LIGHTHOUSE",
-      actionText: "VIEW PROJECT →",
-      actionUrl: "https://github.com/GajjelaVasudev",
-      imageAlt: "Clean modern e-commerce storefront displayed on a laptop display",
+      tech: ["Node.js", "Express", "MongoDB", "Redis", "JWT"],
+      description: "A full-stack e-commerce platform in development, focused on building the backend foundations for product management, cart operations, authentication, and order workflows.",
+      metricLabel: "STATUS: BACKEND PHASE",
+      actionText: "GITHUB (PRIVATE) →",
+      actionUrl: "https://github.com/GajjelaVasudev/scalable-ecommerce-platform",
+      githubUrl: "https://github.com/GajjelaVasudev/scalable-ecommerce-platform",
+      isPrivate: true,
+      imageAlt: "Scalable E-commerce Platform minimal placeholder in active development",
+      placeholderInitials: "SE",
       isFeatured: false
     },
     {
       id: "03",
       tag: "PROJECT 03",
-      category: "CLINICAL WORKFLOW",
-      title: "Maternal Healthcare Platform",
-      tech: ["Node.js", "MongoDB", "Role-Based Access Control"],
-      description: "Role-based clinical coordination platform supporting longitudinal patient care pathways, prenatal milestones, and structured clinical notes with strict audit logging.",
-      metricLabel: "SECURITY: RBAC ENFORCED",
-      actionText: "VIEW PROJECT →",
-      actionUrl: "https://github.com/GajjelaVasudev",
-      imageAlt: "NurtureConnect patient timeline clinical workflow interface",
+      category: "Web Application",
+      title: "Webinar Management System",
+      tech: ["Django", "Django REST Framework", "React", "TypeScript", "PostgreSQL", "Tailwind CSS"],
+      description: "A full-stack webinar and event management platform featuring role-based access control, automated attendee registrations, session scheduling, and certificate verification workflows.",
+      metricLabel: "STATUS: COMPLETED",
+      actionText: "GITHUB REPO →",
+      actionUrl: "https://github.com/GajjelaVasudev/Webinar-Management-System",
+      githubUrl: "https://github.com/GajjelaVasudev/Webinar-Management-System",
+      imageAlt: "Webinar Management System event dashboard and attendee registration platform",
       isFeatured: false
     }
   ],
@@ -260,23 +287,19 @@ export const portfolioData: PortfolioData = {
   about: {
     sectionHeading: "ABOUT ME",
     monogramTag: "GAJJELA VASUDEV // SOFTWARE & SYSTEMS",
-    blueprintRole: "SOFTWARE & SYSTEMS",
-    blueprintSummary: "Computer Science student. Focused on resilient microservices, modular backends, and clean software architecture.",
-    headline: {
-      lead: "I write software with an emphasis on",
-      italic: "clarity",
-      trail: "over accidental complexity."
-    },
-    body: "Rather than chasing every transient framework, I gravitate toward fundamentals: how data moves across networks, how state persists reliably, and how clean interfaces empower real people to execute critical tasks with confidence.",
+    blueprintRole: "SOFTWARE ENGINEERING & DEVELOPMENT",
+    blueprintSummary: "Computer Science student building thoughtful digital experiences through full-stack development, software architecture, and practical AI.",
+    headline: "I build software that balances *functionality*, *clarity*, and *real-world impact*.",
+    body: "I enjoy turning ideas into working applications from intuitive user interfaces and responsive web experiences to reliable APIs, well-structured databases, and intelligent features. My approach is rooted in understanding problems, choosing the right tools, and writing software that is maintainable, useful, and built with purpose.",
     enjoyBuilding: {
       label: "WHAT I ENJOY BUILDING",
-      text: "Backend distributed workflows, decoupled microservice topologies, reliable API contracts, and thoughtfully structured web applications."
+      text: "Full-stack web applications, interactive user experiences, backend services, database-driven systems, and AI-powered tools that solve practical problems."
     },
     exploringNext: {
       label: "WHAT I'M EXPLORING NEXT",
-      text: "High-concurrency messaging brokers, distributed consensus algorithms, query planners, and low-level systems programming in Rust."
+      text: "Stronger problem-solving and data structures, scalable software architecture, modern frontend engineering, distributed systems, and generative AI applications."
     },
-    offScreenContext: "OFF-SCREEN CONTEXT: Reading distributed systems whitepapers, exploring Swiss typographic design, and long-distance road cycling."
+    offScreenContext: "OFF-SCREEN CONTEXT: Exploring thoughtful digital design, reading about software engineering, experimenting with new technologies, and long-distance road cycling."
   },
 
   experience: {
@@ -287,6 +310,28 @@ export const portfolioData: PortfolioData = {
       categoryNumber: "01",
       categoryTitle: "HACKATHONS",
       items: [
+        {
+          id: "hack-cfg",
+          name: "JPMorgan Chase Code for Good 2026",
+          status: "Runner-up",
+          achievement: "Runner-up — Problem Statement 2, Dharmalife",
+          event: "JPMorgan Chase Code for Good 2026",
+          team: "Team 28",
+          role: "Full-Stack Developer",
+          date: "SEP 2026",
+          projectTitle: "DLONE (DLE Sarthi)",
+          description: "Built DLONE (DLE Sarthi), an explainable digital assistance platform designed around the real workflow needs of rural women entrepreneurs (Direct-to-Consumer Livelihood Entrepreneurs).",
+          technicalContributions: [
+            "Hyperlocal recommendations with rationale and grounded, hallucination-resistant pitch generation.",
+            "Automated essentials reordering reminders and defect-resolution workflows to protect commissions.",
+            "Multilingual interface (English, Odia, Hindi, Telugu) with row-level security and PII sanitization."
+          ],
+          teamworkHighlight: "Team 28 • Problem Statement 2 (Dharmalife)",
+          technologies: ["Full-Stack Web", "Grounded AI", "Row-Level Security", "Multilingual UI"],
+          actionText: "View LinkedIn post ↗",
+          actionUrl: "https://lnkd.in/p/dBNVE34r",
+          isFeatured: true
+        },
         {
           id: "hack-01",
           name: "Smart India Hackathon (SIH)",
@@ -303,62 +348,13 @@ export const portfolioData: PortfolioData = {
           technologies: ["Node.js", "Express", "MongoDB", "Docker", "REST APIs"],
           actionText: "Repository ↗",
           actionUrl: "https://github.com/GajjelaVasudev"
-        },
-        {
-          id: "hack-02",
-          name: "National Level Collegiate Hackathon",
-          status: "Finalist",
-          role: "Full-Stack Developer",
-          date: "2023",
-          projectTitle: "Decentralized Care Coordination Interface",
-          description: "Engineered a rapid-response clinical coordination prototype supporting real-time patient alerts under a competitive 36-hour sprint.",
-          technicalContributions: [
-            "Implemented persistent state synchronisation and low-latency clinical alert triggers",
-            "Built a resilient, high-contrast user interface optimized for rapid response under network volatility"
-          ],
-          teamworkHighlight: "Pair-programmed critical state synchronization logic and led end-to-end integration testing.",
-          technologies: ["React", "TypeScript", "Node.js", "WebSockets"],
-          actionText: "Demo & Code ↗",
-          actionUrl: "https://github.com/GajjelaVasudev"
         }
       ]
     },
     professional: {
       categoryNumber: "02",
-      categoryTitle: "EXPERIENCE",
-      items: [
-        {
-          id: "exp-01",
-          organization: "Software Engineering Intern",
-          role: "Backend Engineering Intern",
-          period: "2024 — Present",
-          location: "Hybrid",
-          description: "Working on core backend services, API contract optimization, and reliable data persistence layers for operational systems.",
-          responsibilities: [
-            "Engineered modular REST endpoints with strict validation boundaries and error isolation",
-            "Analyzed database query patterns and applied targeted indexing to enhance throughput",
-            "Contributed to automated unit testing suites and continuous integration review workflows"
-          ],
-          technologies: ["Java", "Spring Boot", "PostgreSQL", "Docker", "Git"],
-          actionText: "Organization Profile ↗",
-          actionUrl: "https://github.com/GajjelaVasudev"
-        },
-        {
-          id: "exp-02",
-          organization: "Academic & Systems Research Projects",
-          role: "Systems Contributor & Student Developer",
-          period: "2023 — 2024",
-          location: "On-Campus",
-          description: "Explored distributed microservice architectures, fault-tolerant service discovery, and modular application design through targeted laboratory projects.",
-          responsibilities: [
-            "Designed and benchmarked dynamic service routing topologies using Netflix Eureka and Spring Cloud",
-            "Documented architectural trade-offs, decoupling strategies, and container deployment best practices"
-          ],
-          technologies: ["Spring Cloud", "Eureka", "Docker", "Microservices"],
-          actionText: "View GitHub ↗",
-          actionUrl: "https://github.com/GajjelaVasudev"
-        }
-      ]
+      categoryTitle: "INTERNSHIPS",
+      items: []
     }
   },
 
@@ -421,30 +417,25 @@ export const portfolioData: PortfolioData = {
     items: [
       {
         id: "cred-01",
-        name: "Java Programming & Object-Oriented Design",
-        issuer: "Oracle / Coursera Verified",
-        issueDate: "2024",
-        credentialId: "JAVA-DS-2024-VG",
-        verificationUrl: "https://github.com/GajjelaVasudev",
-        actionText: "View Credential ↗"
+        name: "Cambridge Linguaskill English",
+        category: "English Proficiency",
+        level: "B2",
+        verificationUrl: "https://drive.google.com/file/d/1oB1gRHQOWxI3JFNOaPYoH3gLZAYQpTXD/view?usp=sharing",
+        actionText: "View Credential"
       },
       {
         id: "cred-02",
-        name: "Full-Stack Web Development & Microservices",
-        issuer: "Meta / Coursera Verified",
-        issueDate: "2023",
-        credentialId: "FS-ARCH-9948",
-        verificationUrl: "https://github.com/GajjelaVasudev",
-        actionText: "View Credential ↗"
+        name: "GitHub Copilot Certification",
+        category: "Developer Tools / AI-Assisted Development",
+        verificationUrl: "https://learn.microsoft.com/api/credentials/share/en-us/VasuGajjela-3547/D4C9EFC6B33D353A?sharingId=83333CF69BBB7554",
+        actionText: "View Credential"
       },
       {
         id: "cred-03",
-        name: "Database Systems & SQL Optimization",
-        issuer: "Stanford Online / EdX Verified",
-        issueDate: "2023",
-        credentialId: "DB-SQL-4122",
-        verificationUrl: "https://github.com/GajjelaVasudev",
-        actionText: "View Credential ↗"
+        name: "AWS Certified Cloud Practitioner",
+        category: "Cloud Computing",
+        verificationUrl: "https://drive.google.com/file/d/14dmuVTVGn08rc6feKpH3qxN74XwJylIR/view?usp=sharing",
+        actionText: "View Credential"
       }
     ]
   },
@@ -491,10 +482,71 @@ export const portfolioData: PortfolioData = {
 
   notes: {
     sectionHeading: "NOTES & IDEAS",
-    tag: "ASYNC PATTERNS",
-    readTime: "8 MIN READ →",
-    title: "Mental Models for Asynchronous State in Modern Web Apps",
-    url: "#notes"
+    kicker: "PRACTICE & REFLECTION",
+    supportingLine: "Short engineering notes, architectural trade-offs, and practical lessons from building software.",
+    items: [
+      {
+        id: "note-1",
+        number: "01",
+        category: "Product Thinking",
+        readTime: "3 MIN READ",
+        title: "Build for the Real Workflow",
+        preview: "The best solution starts with understanding how people already work.",
+        paragraphs: [
+          "A useful application should fit the real workflow of the people using it. Before choosing a framework or adding an AI feature, understand the user's problem, existing tools, and everyday constraints."
+        ],
+        listHeader: "When building software, I want to ask three questions first:",
+        listItems: [
+          "What problem are we actually solving?",
+          "What already works that we should preserve?",
+          "How will we know the solution is genuinely useful?"
+        ],
+        conclusion: "Good engineering is not always about adding more features. Sometimes it is about removing unnecessary steps and making an existing process easier to complete.",
+        tags: ["Product Thinking", "User-Centered Design"]
+      },
+      {
+        id: "note-2",
+        number: "02",
+        category: "Backend Systems",
+        readTime: "4 MIN READ",
+        title: "Reliable Backends Are Built in the Details",
+        preview: "An API working once does not mean it is ready for real users.",
+        paragraphs: [
+          "A backend is more than a collection of endpoints. Reliable systems depend on validation, clear error handling, authorization, sensible database design, and predictable behavior when something goes wrong."
+        ],
+        listHeader: "While building APIs, I try to think beyond the successful request:",
+        listItems: [
+          "What happens when the input is invalid?",
+          "Can one user access another user's data?",
+          "What happens when a database operation fails?",
+          "Can the important behavior be tested automatically?"
+        ],
+        conclusion: "These details may not stand out in a demo, but they are essential for building software that people can trust.",
+        tags: ["Backend Engineering", "API Design", "Testing"]
+      },
+      {
+        id: "note-3",
+        number: "03",
+        category: "Continuous Learning",
+        readTime: "4 MIN READ",
+        title: "Learn Concepts by Building",
+        preview: "Understanding a concept becomes easier when you have to make it work.",
+        paragraphs: [
+          "Documentation and tutorials are useful starting points, but implementing a concept exposes the questions that reading alone may not answer.",
+          "When learning a new technology, I prefer a small working implementation first. I then explore what happens when the system encounters invalid inputs, unexpected failures, or increased complexity."
+        ],
+        listHeader: "For me, a productive learning cycle is simple:",
+        listItems: [
+          "Understand the core idea.",
+          "Build a small example.",
+          "Test different scenarios.",
+          "Identify what breaks and why.",
+          "Improve the implementation."
+        ],
+        conclusion: "The goal is not just to finish a project. It is to understand the decisions behind it and know when to apply the same concepts elsewhere.",
+        tags: ["Continuous Learning", "Problem Solving", "Software Development"]
+      }
+    ]
   },
 
   contact: {

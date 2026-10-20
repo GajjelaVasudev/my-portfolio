@@ -22,21 +22,22 @@ export const VerifiedCredentials: React.FC = () => {
         <div className="credentials-list">
           {credentials.items.map((cred) => (
             <article key={cred.id} className="credential-row reveal-item">
-              {/* Left Column: Issuer & Date */}
+              {/* Left Column: Category */}
               <div className="credential-meta">
-                <span className="credential-issuer">{cred.issuer}</span>
-                <span className="credential-date">{cred.issueDate}</span>
+                <span className="credential-category">{cred.category}</span>
               </div>
 
-              {/* Right Column: Name, ID & Link */}
+              {/* Right Column: Name, Level Badge & Action Link */}
               <div className="credential-content">
                 <div className="credential-info">
-                  <h3 className="credential-name">{cred.name}</h3>
-                  {cred.credentialId && (
-                    <span className="credential-id-badge">
-                      ID: {cred.credentialId}
-                    </span>
-                  )}
+                  <div className="credential-name-row">
+                    <h3 className="credential-name">{cred.name}</h3>
+                    {cred.level && (
+                      <span className="credential-level-badge">
+                        LEVEL {cred.level}
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 {cred.verificationUrl && (
@@ -46,10 +47,24 @@ export const VerifiedCredentials: React.FC = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="credential-verify-link"
-                      aria-label={`Verify ${cred.name} credential`}
+                      aria-label={`View ${cred.name} credential`}
                     >
-                      <span>{cred.actionText ? cred.actionText.replace('↗', '').trim() : 'View Credential'}</span>
-                      <span className="credential-link-arrow" aria-hidden="true">↗</span>
+                      <span>View Credential</span>
+                      <svg
+                        className="credential-link-icon"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M7 17L17 7" />
+                        <path d="M7 7h10v10" />
+                      </svg>
                     </a>
                   </div>
                 )}

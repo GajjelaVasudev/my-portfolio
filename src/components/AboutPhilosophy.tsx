@@ -4,6 +4,20 @@ import { portfolioData } from '../data/portfolioData';
 export const AboutPhilosophy: React.FC = () => {
   const { about } = portfolioData;
 
+  const renderEmphasizedHeadline = (text: string) => {
+    const parts = text.split(/(\*[^*]+\*)/g);
+    return parts.map((part, idx) => {
+      if (part.startsWith('*') && part.endsWith('*')) {
+        return (
+          <span key={idx} className="serif-italic">
+            {part.slice(1, -1)}
+          </span>
+        );
+      }
+      return part;
+    });
+  };
+
   return (
     <section className="about-section" id="about">
       <div className="container">
@@ -44,9 +58,7 @@ export const AboutPhilosophy: React.FC = () => {
           {/* Right Column: Philosophy & Focus */}
           <div className="about-content-col reveal-item delay-1">
             <h3 className="about-headline">
-              {about.headline.lead}{' '}
-              <span className="serif-italic">{about.headline.italic}</span>{' '}
-              {about.headline.trail}
+              {renderEmphasizedHeadline(about.headline)}
             </h3>
 
             <p className="about-body">

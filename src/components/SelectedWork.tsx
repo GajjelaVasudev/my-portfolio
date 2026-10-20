@@ -2,18 +2,17 @@ import React, { useRef, useState } from 'react';
 import { portfolioData } from '../data/portfolioData';
 import { ProjectCard } from './ProjectCard';
 
-import recruitmentImg from '../assets/project_recruitment.jpg';
-import ecommerceImg from '../assets/project_ecommerce.jpg';
-import maternalImg from '../assets/project_maternal.jpg';
+import nxtgenImg from '../assets/project_nxtgen.png';
+import webinarImg from '../assets/project_webinar.png';
 
 export const SelectedWork: React.FC = () => {
   const { featuredProject, gridProjects } = portfolioData;
   const terminalRef = useRef<HTMLDivElement>(null);
   const [endpointCopied, setEndpointCopied] = useState(false);
 
-  const projectImages: Record<string, string> = {
-    '02': ecommerceImg,
-    '03': maternalImg
+  const projectImages: Record<string, string | undefined> = {
+    '02': undefined, // Deliberate minimal placeholder for active development; swap with image reference when ready
+    '03': webinarImg
   };
 
   // Restrained 3D tilt interaction for terminal preview
@@ -41,7 +40,7 @@ export const SelectedWork: React.FC = () => {
 
   const handleCopyEndpoint = (e: React.MouseEvent) => {
     e.preventDefault();
-    navigator.clipboard.writeText('synapse.cluster.local:8080/dashboard').then(() => {
+    navigator.clipboard.writeText('https://nxt-gen-lms.vercel.app').then(() => {
       setEndpointCopied(true);
       setTimeout(() => setEndpointCopied(false), 2200);
     });
@@ -63,7 +62,7 @@ export const SelectedWork: React.FC = () => {
           </p>
 
           <p className="section-subtitle">
-            A selection of projects exploring distributed microservices, scalable state management, and compassionate workflow engineering.
+            A selection of projects exploring role-based learning workflows, scalable backend architectures, and full-stack event platforms.
           </p>
         </div>
 
@@ -103,16 +102,30 @@ export const SelectedWork: React.FC = () => {
                 </ul>
               )}
 
-              {/* Action Button */}
-              <div className="featured-action-wrap">
-                <a
-                  href={featuredProject.actionUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-inspect"
-                >
-                  {featuredProject.actionText.replace('→', '').trim()} <span className="action-arrow" aria-hidden="true">→</span>
-                </a>
+              {/* Action Buttons: Live Demo & GitHub */}
+              <div className="featured-actions-group">
+                {featuredProject.liveUrl && (
+                  <a
+                    href={featuredProject.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-inspect btn-live-action"
+                    aria-label={`Visit ${featuredProject.title} live demo`}
+                  >
+                    LIVE DEMO <span className="action-arrow" aria-hidden="true">↗</span>
+                  </a>
+                )}
+                {featuredProject.githubUrl && (
+                  <a
+                    href={featuredProject.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-inspect btn-secondary-action"
+                    aria-label={`View ${featuredProject.title} GitHub repository`}
+                  >
+                    GITHUB REPO <span className="action-arrow" aria-hidden="true">↗</span>
+                  </a>
+                )}
               </div>
             </div>
 
@@ -139,9 +152,10 @@ export const SelectedWork: React.FC = () => {
                     type="button"
                     onClick={handleCopyEndpoint}
                     className="terminal-title-btn"
-                    title="Click to copy cluster endpoint"
+                    title="Click to copy deployment URL"
+                    aria-label="Click to copy deployment URL"
                   >
-                    synapse.cluster.local:8080/dashboard
+                    nxt-gen-lms.vercel.app
                     {endpointCopied && (
                       <span className="endpoint-tooltip" role="status">
                         ✓ Copied
@@ -149,24 +163,24 @@ export const SelectedWork: React.FC = () => {
                     )}
                   </button>
                   <div className="terminal-badge">
-                    ACTIVE: 24 PODS
+                    VERCEL LIVE
                   </div>
                 </div>
 
                 {/* Dashboard Screenshot Preview */}
                 <a
-                  href={featuredProject.actionUrl}
+                  href={featuredProject.liveUrl || featuredProject.actionUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="terminal-screen-link"
-                  aria-label="Inspect Online Job Recruitment System architecture and code"
+                  aria-label={`Visit ${featuredProject.title} live demo`}
                   data-cursor="view"
                 >
                   <div className="terminal-screen" data-cursor="view">
                     <img
-                      src={recruitmentImg}
+                      src={nxtgenImg}
                       alt={featuredProject.imageAlt}
-                      className="terminal-image"
+                      className="terminal-preview-img terminal-image"
                       loading="lazy"
                     />
                   </div>

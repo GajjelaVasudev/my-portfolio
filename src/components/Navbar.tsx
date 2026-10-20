@@ -74,8 +74,10 @@ export const Navbar: React.FC = () => {
         <div className="navbar-actions">
           <a
             href={portfolioData.personal.resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className="btn-navbar-resume"
-            aria-label="View Resume PDF"
+            aria-label="View Resume PDF (opens in new tab)"
           >
             <svg
               className="resume-doc-icon"
@@ -134,6 +136,8 @@ export const Navbar: React.FC = () => {
             })}
             <a
               href={portfolioData.personal.resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="btn-navbar-resume mobile-resume-btn"
               onClick={() => setMobileMenuOpen(false)}
             >

@@ -14,9 +14,9 @@ interface ChatMessage {
 }
 
 const SUGGESTED_QUESTIONS = [
-  "Explore my projects",
-  "My technical skills",
-  "My hackathon experience"
+  "Explore Vasudev's projects",
+  "What technologies does he use?",
+  "Tell me about his hackathon experience"
 ];
 
 const DEPLOYED_BACKEND_URL = 'https://portfolio-rag-backend-vkq8.onrender.com';
@@ -34,6 +34,84 @@ const createMessageId = (prefix: string): string => {
   return `${prefix}-${messageSequence}`;
 };
 
+function formatSourceName(src: SourceReference): string {
+  if (src.section_title && src.section_title.trim().length > 0) {
+    return src.section_title.replace(/^#+\s*/, '').trim();
+  }
+  const base = src.file_name.split('/').pop()?.replace(/\.md$/i, '') || '';
+  return base
+    .split(/[-_]/)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ');
+}
+
+const renderInlineTokens = (text: string): React.ReactNode => {
+  const regex = /(\*\*[^*]+\*\*|`[^`]+`|\[[^\]]+\]\([^)]+\))/g;
+  const parts = text.split(regex);
+
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={i}>{part.slice(2, -2)}</strong>;
+    }
+    if (part.startsWith('`') && part.endsWith('`')) {
+      return (
+        <code key={i} className="chat-inline-code">
+          {part.slice(1, -1)}
+        </code>
+      );
+    }
+    const linkMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if (linkMatch) {
+      return (
+        <a key={i} href={linkMatch[2]} target="_blank" rel="noopener noreferrer">
+          {linkMatch[1]}
+        </a>
+      );
+    }
+    return part;
+  });
+};
+
+const renderFormattedText = (text: string): React.ReactNode => {
+  const blocks = text.split(/\n{2,}/);
+
+  return blocks.map((block, blockIdx) => {
+    const lines = block.split('\n');
+
+    const isList = lines.length > 0 && lines.every((line) => /^[\s]*[-*•]\s+/.test(line));
+    if (isList) {
+      return (
+        <ul key={blockIdx} className="chat-markdown-list">
+          {lines.map((line, lineIdx) => {
+            const cleanLine = line.replace(/^[\s]*[-*•]\s+/, '');
+            return <li key={lineIdx}>{renderInlineTokens(cleanLine)}</li>;
+          })}
+        </ul>
+      );
+    }
+
+    const headingMatch = block.match(/^(#{1,4})\s+(.+)$/);
+    if (headingMatch) {
+      return (
+        <h4 key={blockIdx} className="chat-markdown-heading">
+          {renderInlineTokens(headingMatch[2])}
+        </h4>
+      );
+    }
+
+    return (
+      <p key={blockIdx} className="chat-markdown-paragraph">
+        {lines.map((line, lineIdx) => (
+          <React.Fragment key={lineIdx}>
+            {lineIdx > 0 && <br />}
+            {renderInlineTokens(line)}
+          </React.Fragment>
+        ))}
+      </p>
+    );
+  });
+};
+
 export const FloatingAssistant: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
@@ -45,7 +123,7 @@ export const FloatingAssistant: React.FC = () => {
       id: createMessageId('init'),
       role: 'assistant',
       content:
-        "Hey, welcome! Curious about my projects, technical skills, hackathons, or experience? Ask away, and I'll help you explore."
+        "Hi! Curious about Vasudev's work? Ask me about his projects, technical skills, or hackathon experience."
     }
   ]);
 
@@ -163,7 +241,7 @@ export const FloatingAssistant: React.FC = () => {
           type="button"
           className={`assistant-launcher-btn ${isOpen ? 'is-open' : ''}`}
           onClick={() => setIsOpen(!isOpen)}
-          aria-label={isOpen ? 'Close Leo assistant' : "Ask Leo — Vasudev's Personal Assistant"}
+          aria-label={isOpen ? 'Close Leo assistant' : "Ask Leo — Your guide to Vasudev's projects, skills, and experience"}
           aria-expanded={isOpen}
           aria-controls="leo-assistant-dialog"
         >
@@ -192,7 +270,7 @@ export const FloatingAssistant: React.FC = () => {
           id="leo-assistant-dialog"
           className="floating-assistant-panel"
           role="dialog"
-          aria-label="Vasudev's Personal Assistant"
+          aria-label="Leo — Your guide to Vasudev's projects, skills, and experience"
         >
           {/* Panel Header */}
           <header className="assistant-panel-header">
@@ -214,16 +292,16 @@ export const FloatingAssistant: React.FC = () => {
                 </svg>
               </div>
               <div className="header-title-block">
-                <h2 className="header-app-name">Vasudev's Personal Assistant</h2>
-                <p className="header-app-desc">Your guide to my projects, skills and experience.</p>
+                <h2 className="header-app-name">Leo</h2>
+                <p className="header-app-desc">Your guide to Vasudev's projects, skills, and experience.</p>
               </div>
             </div>
             <button
               type="button"
               className="assistant-panel-close-btn"
               onClick={() => setIsOpen(false)}
-              aria-label="Close assistant"
-              title="Close assistant"
+              aria-label="Close Leo assistant"
+              title="Close Leo assistant"
             >
               <svg
                 width="14"
@@ -244,65 +322,59 @@ export const FloatingAssistant: React.FC = () => {
 
           {/* Messages Area */}
           <div className="assistant-messages-container" role="log" aria-live="polite">
-            {messages.map((msg) => (
-              <div
-                key={msg.id}
-                className={`chat-message-row is-${msg.role}`}
-              >
-                <div className={`chat-bubble ${msg.isError ? 'chat-error-card' : ''}`}>
-                  <span className="chat-bubble-text">{msg.content}</span>
+            {messages.map((msg) => {
+              const uniqueSources =
+                msg.sources && msg.sources.length > 0
+                  ? Array.from(new Set(msg.sources.map(formatSourceName).filter(Boolean)))
+                  : [];
 
-                  {/* Sources References as Structured Source Cards */}
-                  {msg.sources && msg.sources.length > 0 && (
-                    <div className="message-sources-strip">
-                      <span className="source-strip-label">Verified Sources</span>
-                      <div className="source-cards-list">
-                        {msg.sources.map((src, idx) => (
-                          <div key={idx} className="source-citation-card">
-                            <span className="source-accent-dot" aria-hidden="true" />
-                            <div className="source-card-text">
-                              <span className="source-card-file">{src.file_name}</span>
-                              {src.section_title && (
-                                <span className="source-card-section">{src.section_title}</span>
-                              )}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
+              return (
+                <div key={msg.id} className={`chat-message-row is-${msg.role}`}>
+                  <div className={`chat-bubble ${msg.isError ? 'chat-error-card' : ''}`}>
+                    <div className="chat-bubble-content">
+                      {msg.role === 'assistant' && !msg.isError
+                        ? renderFormattedText(msg.content)
+                        : msg.content}
                     </div>
-                  )}
 
-                  {/* Retry Action if Error */}
-                  {msg.isError && lastFailedQuery && (
-                    <button
-                      type="button"
-                      className="error-retry-btn"
-                      onClick={() => handleSendMessage(lastFailedQuery)}
-                    >
-                      <svg
-                        width="12"
-                        height="12"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        aria-hidden="true"
+                    {/* Subtle inline source names without cards, paths, or boxes */}
+                    {uniqueSources.length > 0 && (
+                      <div className="chat-sources-inline" aria-label="Reference sources">
+                        <span className="sources-inline-label">Sources:</span> {uniqueSources.join(' · ')}
+                      </div>
+                    )}
+
+                    {/* Retry Action if Error */}
+                    {msg.isError && lastFailedQuery && (
+                      <button
+                        type="button"
+                        className="error-retry-btn"
+                        onClick={() => handleSendMessage(lastFailedQuery)}
                       >
-                        <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
-                      </svg>
-                      <span>Retry Question</span>
-                    </button>
-                  )}
+                        <svg
+                          width="12"
+                          height="12"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          aria-hidden="true"
+                        >
+                          <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
+                        </svg>
+                        <span>Retry Question</span>
+                      </button>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
 
-            {/* Suggested Question Chips (Only shown if <= 2 messages) */}
-            {messages.length <= 2 && !isLoading && (
+            {/* Suggested Question Rows (shown before conversation starts) */}
+            {messages.length <= 1 && !isLoading && (
               <div className="suggested-questions-box">
-                <span className="suggested-label">Suggested Questions</span>
                 <div className="suggested-chips-list">
                   {SUGGESTED_QUESTIONS.map((q) => (
                     <button
@@ -324,8 +396,7 @@ export const FloatingAssistant: React.FC = () => {
                         strokeLinejoin="round"
                         aria-hidden="true"
                       >
-                        <line x1="5" y1="12" x2="19" y2="12" />
-                        <polyline points="12 5 19 12 12 19" />
+                        <polyline points="9 18 15 12 9 6" />
                       </svg>
                     </button>
                   ))}
@@ -335,7 +406,7 @@ export const FloatingAssistant: React.FC = () => {
 
             {/* Typing Indicator */}
             {isLoading && (
-              <div className="assistant-typing-indicator" aria-label="Leo is searching knowledge base">
+              <div className="assistant-typing-indicator" aria-label="Leo is responding">
                 <span className="typing-dot" />
                 <span className="typing-dot" />
                 <span className="typing-dot" />
@@ -353,18 +424,18 @@ export const FloatingAssistant: React.FC = () => {
                   ref={inputRef}
                   type="text"
                   className="assistant-query-input"
-                  placeholder="Ask Leo about projects, skills, or experience..."
+                  placeholder="Ask about Vasudev's work…"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   disabled={isLoading}
                   maxLength={500}
-                  aria-label="Ask Leo a question"
+                  aria-label="Ask about Vasudev's work"
                 />
                 <button
                   type="submit"
                   className="assistant-send-btn"
                   disabled={isLoading || !query.trim()}
-                  aria-label="Send question"
+                  aria-label="Send message"
                 >
                   <svg
                     width="13"
@@ -384,7 +455,7 @@ export const FloatingAssistant: React.FC = () => {
               </div>
             </form>
             <div className="assistant-footer-disclaimer">
-              Grounded in Vasudev's verified portfolio knowledge base.
+              Answers about Vasudev's work and experience
             </div>
           </footer>
         </section>

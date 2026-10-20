@@ -5,6 +5,26 @@ import portraitImg from '../assets/portrait.jpg';
 export const Hero: React.FC = () => {
   const { personal } = portfolioData;
 
+  const handleScrollToWork = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const workSection = document.getElementById('work');
+    if (!workSection) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const navbar = document.querySelector('.navbar-header');
+    const navHeight = navbar ? navbar.getBoundingClientRect().height : 72;
+    const targetTop = workSection.getBoundingClientRect().top + window.pageYOffset - navHeight;
+
+    window.scrollTo({
+      top: Math.max(0, targetTop),
+      behavior: prefersReducedMotion ? 'auto' : 'smooth'
+    });
+
+    window.history.pushState(null, '', '#work');
+  };
+
+  const isResumeExternal = personal.resumeUrl.startsWith('http') || personal.resumeUrl.endsWith('.pdf');
+
   return (
     <section className="hero-section" id="hero">
       <div className="container">
@@ -36,10 +56,19 @@ export const Hero: React.FC = () => {
 
             {/* Action Buttons */}
             <div className="hero-actions reveal-item delay-4">
-              <a href="#work" className="btn-primary">
+              <a
+                href="#work"
+                onClick={handleScrollToWork}
+                className="btn-primary"
+              >
                 EXPLORE MY WORK <span className="btn-arrow" aria-hidden="true">↗</span>
               </a>
-              <a href={personal.resumeUrl} className="btn-secondary">
+              <a
+                href={personal.resumeUrl}
+                className="btn-secondary"
+                target={isResumeExternal ? '_blank' : undefined}
+                rel={isResumeExternal ? 'noopener noreferrer' : undefined}
+              >
                 VIEW RESUME
               </a>
             </div>
